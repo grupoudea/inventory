@@ -6,7 +6,7 @@ import React from 'react'
 
 const App = ({ Component, pageProps }: AppProps) => {
   const client = new ApolloClient({
-    uri: 'https://replaceme.com/',
+    uri: '/api/graphql',
     cache: new InMemoryCache(),
   });
 
