@@ -1,5 +1,9 @@
-import React from "react";
+import React from 'react';
+import { useNavigationContext } from '@/context/NavigationContext';
 
-const Sidebar = () => <aside className="debug">SIDEBAR</aside>;
+const Sidebar = () => {
+  const { open, setOpen } = useNavigationContext();
+  return <aside className='debug'>SIDEBAR</aside>;
+};
 
 export default Sidebar;
