@@ -1,13 +1,19 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Material } from "@prisma/client";
 import TableInventory from "@/components/TableInventory";
 import { Column } from "@/utils/utils";
+import { useNavigationContext } from "@/context/NavigationContext";
 
 const InventoryManagement = () => {
   const [materialSelected, setMaterialSelected] = useState<any>(null);
+  const { setTituloHeader } = useNavigationContext();
+
+  useEffect(() => {
+    setTituloHeader("Gestión de inventarios");
+  }, []);
 
   return (
-    <div className="debug-green flex w-full flex-col h-full px-5">
+    <div className="flex w-full flex-col h-full px-5">
       <div className="flex justify-between">
         <InputSearchMovement
           materialSelected={materialSelected}

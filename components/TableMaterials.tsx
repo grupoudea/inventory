@@ -30,11 +30,11 @@ const TableReactDataGrid = (config: TableConfig) => (
                     {item.creation_date}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                    {item.entradas}
+                    {item.name}
                   </td>
                   <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
                     <a className="text-gray-800 hover:text-gray-800" href="#">
-                      {item.salidas}
+                      {item.available}
                     </a>
                   </td>
                 </tr>
