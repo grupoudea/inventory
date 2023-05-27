@@ -12,9 +12,11 @@ const Layout = ({ children }: LayoutProps) => (
     <main className="debug flex h-screen w-screen">
       <NavigationContextProvider>
         <Sidebar />
-        <div className="flex flex-col h-full w-full">
+        <div className="flex h-full w-full flex-col">
           <Header />
-          <section className="debug flex h-full w-full">{children}</section>
+          <section className="debug-green container mx-auto flex h-full w-full">
+            {children}
+          </section>
         </div>
       </NavigationContextProvider>
     </main>
