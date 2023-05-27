@@ -9,6 +9,8 @@ import {
 interface NavigationContextProps {
   open: boolean;
   setOpen: Dispatch<SetStateAction<boolean>>;
+  tituloHeader: string;
+  setTituloHeader: Dispatch<SetStateAction<string>>;
 }
 
 const NavigationContext = createContext<NavigationContextProps>(
@@ -23,8 +25,11 @@ interface NavigationContextProvider {
 
 const NavigationContextProvider = ({ children }: NavigationContextProvider) => {
   const [open, setOpen] = useState<boolean>(false);
+  const [tituloHeader, setTituloHeader] = useState<string>("Header");
   return (
-    <NavigationContext.Provider value={{ open, setOpen }}>
+    <NavigationContext.Provider
+      value={{ open, setOpen, tituloHeader, setTituloHeader }}
+    >
       {children}
     </NavigationContext.Provider>
   );
