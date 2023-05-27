@@ -2,7 +2,7 @@ import Layout from "@/layouts/Layout";
 import Head from "next/head";
 import React from "react";
 import { InventoryContextProvider } from "@/context/inventoryContext";
-import InventoryManagement from "@/pages/InventoryManagement";
+import InventoryManagement from "@/pages/inventory-management";
 
 const app = () => (
   <>
