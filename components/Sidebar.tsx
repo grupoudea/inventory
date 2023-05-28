@@ -6,6 +6,7 @@ import Image from "next/image";
 import styles from "@/styles/CircularImage.module.css";
 
 const Sidebar = () => {
+  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
   const { open, setOpen } = useNavigationContext();
 
   return (
@@ -21,7 +22,7 @@ const Sidebar = () => {
         <ul className="flex flex-col gap-3">
           <SidebarLink href="/inventory-management" title={"Inventario"} />
           <SidebarLink href="/materials-management" title={"Materiales"} />
-          <SidebarLink href="/test" title={"Usuarios"} />
+          <SidebarLink href="/users-management" title={"Usuarios"} />
         </ul>
       </nav>
     </aside>
@@ -46,7 +47,7 @@ interface SidebarLinkProps {
 
 const SidebarLink = ({ href, title }: SidebarLinkProps) => {
   const router = useRouter();
-  console.log("path: ", router.pathname, "href: ", href);
+  console.log(`path: , ${router.pathname} href: ${href}`);
 
   const isActive = router.pathname === href;
 
