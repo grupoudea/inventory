@@ -1,7 +1,12 @@
 import { ApolloServer } from '@apollo/server';
-
-import { resolvers } from '@/graphql/server/user_resolver';
-import { typeDefs } from '@/graphql/server/types';
+import { materialResolvers} from '@/graphql/server/resolvers/material_resolver';
+import { userResolvers } from '@/graphql/server/resolvers/user_resolver';
+import {rolResolvers}from '@/graphql/server/resolvers/rol_resolver';
+import { movementResolvers } from '@/graphql/server/resolvers/movement_resolver';
+import { userTypesDefs } from '@/graphql/server/types/user_typesDefs';
+import { rolTypeDefs } from '@/graphql/server/types/rol_typesDefs';
+import { movementTypeDefs } from '@/graphql/server/types/movement_typesDefs';
+import { materialTypeDefs } from '@/graphql/server/types/material_typesDefs';
 import {startServerAndCreateNextHandler} from '@as-integrations/next'
 
 import { PrismaClient } from "@prisma/client"
@@ -12,8 +17,8 @@ const prisma = new PrismaClient();
 
 
 const server = new ApolloServer({
-  resolvers,
-  typeDefs,
+   resolvers:[userResolvers,rolResolvers,materialResolvers,movementResolvers] ,
+  typeDefs: [userTypesDefs,rolTypeDefs,materialTypeDefs,movementTypeDefs],
 });
 
 export default startServerAndCreateNextHandler(server,{
