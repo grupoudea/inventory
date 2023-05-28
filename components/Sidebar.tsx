@@ -18,13 +18,22 @@ const Sidebar = () => {
         <CircularImage />
         <div>pepito perez</div>
       </div>
-      <nav>
-        <ul className="flex flex-col gap-3">
-          <SidebarLink href="/inventory-management" title={"Inventario"} />
-          <SidebarLink href="/materials-management" title={"Materiales"} />
-          <SidebarLink href="/users-management" title={"Usuarios"} />
-        </ul>
-      </nav>
+      <div className="flex flex-col justify-between h-full">
+        <nav>
+          <ul className="flex flex-col gap-3">
+            <SidebarLink href="/inventory-management" title={"Inventario"} />
+            <SidebarLink href="/materials-management" title={"Materiales"} />
+            <SidebarLink href="/users-management" title={"Usuarios"} />
+          </ul>
+        </nav>
+        <button
+          type="button"
+          className="border-1"
+          onClick={() => {}} //TODO Agregar servicio para cerrar sesión
+        >
+          Log out
+        </button>
+      </div>
     </aside>
   );
 };

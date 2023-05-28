@@ -227,8 +227,6 @@ const InventoryTable = ({ materialSelected }: { materialSelected: number }) => {
         dato.salidas = dato.quantity;
       }
     });
-
-    // eslint-disable-next-line prefer-destructuring
     cantidadDisponible = datos.cantidadDisponible;
   }
 
@@ -298,6 +296,10 @@ const InputSearchMovement = ({
     },
   ];
 
+  if (materiales && materiales.length > 0) {
+    setMaterialSelected(parseInt(String(materiales[0].id), 10));
+  }
+
   return (
     <div className="flex my-5">
       <select
@@ -306,7 +308,6 @@ const InputSearchMovement = ({
         name="material"
         onChange={handleMaterialChange}
       >
-        <option value={""}>Seleccione un material</option>
         {materiales?.map((material) => (
           <option key={`material_${material.id}`} value={material.id}>
             {material.name}

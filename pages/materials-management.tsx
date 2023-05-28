@@ -42,7 +42,6 @@ const MaterialsTable = () => {
   // TODO organizar el objeto response de la forma de [datos]
 
   let dataSource: any[] = [];
-  let cantidadDisponible = 0;
 
   let datos = [
     {
@@ -99,9 +98,6 @@ const MaterialsTable = () => {
         dataSource={dataSource}
         columns={columns}
       ></TableMaterials>
-      <div className="flex justify-end pr-0 mt-5 text-lg mb-24">
-        Cantidad disponible: {cantidadDisponible}
-      </div>
     </>
   );
 };
