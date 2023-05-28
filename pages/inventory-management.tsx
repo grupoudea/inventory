@@ -1,9 +1,10 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Material } from "@prisma/client";
 import TableInventory from "@/components/TableInventory";
 import { Column } from "@/utils/utils";
 import Layout from "@/layouts/Layout";
-import { InventoryContextProvider } from "@/context/inventoryContext";
+import { useNavigationContext } from "@/context/NavigationContext";
+import { InventoryContextProvider } from "@/context/InventoryContext";
 
 const InventoryPage = () => (
   <Layout>
@@ -17,9 +18,14 @@ const InventoryPage = () => (
 
 const InventoryManagement = () => {
   const [materialSelected, setMaterialSelected] = useState<any>(null);
+  const { setTituloHeader } = useNavigationContext();
+
+  useEffect(() => {
+    setTituloHeader("Gestión de inventarios");
+  }, []);
 
   return (
-    <div className="debug-green flex w-full flex-col h-full px-5">
+    <div className="flex w-full flex-col h-full px-5">
       <div className="flex justify-between">
         <InputSearchMovement
           materialSelected={materialSelected}
