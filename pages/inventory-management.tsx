@@ -2,6 +2,18 @@ import React, { useState } from "react";
 import { Material } from "@prisma/client";
 import TableInventory from "@/components/TableInventory";
 import { Column } from "@/utils/utils";
+import Layout from "@/layouts/Layout";
+import { InventoryContextProvider } from "@/context/inventoryContext";
+
+const InventoryPage = () => (
+  <Layout>
+    <InventoryContextProvider>
+      <div className="flex flex-col h-full w-full">
+        <InventoryManagement />
+      </div>
+    </InventoryContextProvider>
+  </Layout>
+);
 
 const InventoryManagement = () => {
   const [materialSelected, setMaterialSelected] = useState<any>(null);
@@ -12,8 +24,8 @@ const InventoryManagement = () => {
         <InputSearchMovement
           materialSelected={materialSelected}
           setMaterialSelected={setMaterialSelected}
-        ></InputSearchMovement>
-        <ButtonAddMovement></ButtonAddMovement>
+        />
+        <ButtonAddMovement />
       </div>
       <InventoryTable materialSelected={materialSelected}></InventoryTable>
     </div>
@@ -161,4 +173,4 @@ const InputSearchMovement = ({ materialSelected, setMaterialSelected }) => {
     </div>
   );
 };
-export default InventoryManagement;
+export default InventoryPage;
