@@ -1,8 +1,8 @@
 import React from "react";
 import { TableConfig } from "@/utils/utils";
 
-const TableReactDataGrid = (config: TableConfig) => (
-  <div className="flex flex-col">
+const TableUsers = (config: TableConfig) => (
+  <div className=" flex flex-col">
     <div className="overflow-x-auto">
       <div className="w-full inline-block align-middle">
         <div className="overflow-hidden border rounded-lg">
@@ -13,7 +13,7 @@ const TableReactDataGrid = (config: TableConfig) => (
                   <th
                     key={column.name}
                     scope="col"
-                    className="px-6 py-3 text-xs font-bold text-left text-gray-500 uppercase "
+                    className="px-6 py-3 text-xs font-bold text-center text-gray-500 uppercase "
                   >
                     {column.header}
                   </th>
@@ -23,18 +23,18 @@ const TableReactDataGrid = (config: TableConfig) => (
             <tbody className="divide-y divide-gray-200">
               {config.dataSource?.map((item) => (
                 <tr key={item.id}>
-                  <td className="px-6 py-4 text-sm font-medium text-gray-800 whitespace-nowrap">
+                  <td className="px-6 py-4 text-sm font-medium text-gray-800 text-center whitespace-nowrap">
                     {item.id}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
+                  <td className="px-6 py-4 text-sm text-gray-800 text-center whitespace-nowrap">
                     {item.creation_date}
                   </td>
-                  <td className="px-6 py-4 text-sm text-gray-800 whitespace-nowrap">
-                    {item.name}
+                  <td className="px-6 py-4 text-sm text-gray-800 text-center whitespace-nowrap">
+                    {item.correo}
                   </td>
-                  <td className="px-6 py-4 text-sm font-medium text-right whitespace-nowrap">
+                  <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
                     <a className="text-gray-800 hover:text-gray-800" href="#">
-                      {item.available}
+                      {item.rol}
                     </a>
                   </td>
                 </tr>
@@ -47,4 +47,4 @@ const TableReactDataGrid = (config: TableConfig) => (
   </div>
 );
 
-export default TableReactDataGrid;
+export default TableUsers;
