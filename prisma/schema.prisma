@@ -29,17 +29,23 @@ model Material {
   id            Int      @id @default(autoincrement())
   name          String
   available     Int
-  creation_date DateTime
+  creation_date DateTime @default(now())
   user_id       Int
   user          User     @relation(fields: [user_id], references: [id])
   movement Movement[]
 
 }
 
+enum MovementType {
+  ENTRADA
+  SALIDA
+}
+
 model Movement {
   id Int @id @default(autoincrement())
   quantity Int 
-  creation_date DateTime
+  creation_date DateTime @default(now())
+  movement_type MovementType
   material_id Int 
   material Material @relation(fields: [material_id],references: [id])
 }
