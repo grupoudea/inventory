@@ -10,7 +10,7 @@ import {
 } from "@/context/InventoryContext";
 import { NextPage } from "next";
 import Head from "next/head";
-import { FormDialogMovements } from "@/components/dialog/FormDialogMovements";
+import { FormDialogAddMovement } from "@/components/dialog/FormDialogAddMovement";
 
 const InventoryPage: NextPage = () => (
   <>
@@ -49,7 +49,7 @@ const InventoryManagement = () => {
       </div>
       <InventoryTable materialSelected={materialSelected}></InventoryTable>
 
-      <FormDialogMovements />
+      <FormDialogAddMovement />
     </div>
   );
 };

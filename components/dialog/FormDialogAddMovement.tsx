@@ -5,7 +5,7 @@ import { toast } from "react-toastify";
 import { useInventoryContext } from "@/context/InventoryContext";
 import { MdInput, MdOutput } from "react-icons/md";
 
-const FormDialogMovements = () => {
+const FormDialogAddMovement = () => {
   const [formData, setFormData] = useState({
     cantidad: 0,
     tipoMovimiento: "",
@@ -100,4 +100,4 @@ const FormDialogMovements = () => {
   );
 };
 
-export { FormDialogMovements };
+export { FormDialogAddMovement };
