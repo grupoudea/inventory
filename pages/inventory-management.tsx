@@ -11,6 +11,7 @@ import {
 import { NextPage } from "next";
 import Head from "next/head";
 import { FormDialogAddMovement } from "@/components/dialog/FormDialogAddMovement";
+import TableReactDataGrid from "@/components/TableReactDataGrid";
 
 const InventoryPage: NextPage = () => (
   <>
@@ -47,10 +48,116 @@ const InventoryManagement = () => {
         />
         <ButtonAddMovement />
       </div>
-      <InventoryTable materialSelected={materialSelected}></InventoryTable>
+      <InventoryTable2 materialSelected={materialSelected}></InventoryTable2>
 
       <FormDialogAddMovement />
     </div>
+  );
+};
+
+const InventoryTable2 = ({ materialSelected }: any) => {
+  // TODO Servico para consultar los movimientos, el servicio debe retornar la lista de movimientos con filtro.
+  // TODO usar [materialSelected] para el filtro
+  // TODO Tambien el calculo de la cantidad disponible.
+  // TODO organizar el objeto response de la forma de [datos]
+
+  const [dataSource, setDataSource] = useState<any>([]);
+  const [cantidadDisponible, setCantidadDisponible] = useState<number>(35);
+  const [loading, setLoading] = useState(true);
+
+  console.log("materialSelected", materialSelected);
+
+  useEffect(() => {
+    if (materialSelected) {
+      // let datos = {
+      //   movimientos: [
+      //     {
+      //       id: 1,
+      //       quantity: 1,
+      //       creation_date: new Date(),
+      //       material_id: 1,
+      //       tipoMaterial: "ENTRADA",
+      //     },
+      //     {
+      //       id: 2,
+      //       quantity: 1,
+      //       creation_date: new Date(),
+      //       material_id: 2,
+      //       tipoMaterial: "SALIDA",
+      //     },
+      //     {
+      //       id: 3,
+      //       quantity: 1,
+      //       creation_date: new Date(),
+      //       material_id: 2,
+      //       tipoMaterial: "SALIDA",
+      //     },
+      //     {
+      //       id: 4,
+      //       quantity: 1,
+      //       creation_date: new Date(),
+      //       material_id: 2,
+      //       tipoMaterial: "SALIDA",
+      //     },
+      //     {
+      //       id: 5,
+      //       quantity: 1,
+      //       creation_date: new Date(),
+      //       material_id: 2,
+      //       tipoMaterial: "SALIDA",
+      //     },
+      //   ],
+      //   cantidadDisponible: 35,
+      // };
+
+      const datos = new Promise((resolve) => {
+        setTimeout(() => {
+          const testData = Array.from({ length: 10 }, (_, index) => ({
+            id: index + 1,
+            quantity: index * 3,
+            creation_date: new Date(),
+            material_id: (index + 2) * 100,
+            tipoMaterial: index % 2 == 0 ? "ENTRANDA" : "SALIDA",
+          }));
+
+          const updatedDataSource: any = testData.map((dato) => ({
+            ...dato,
+            creation_date: dato.creation_date.toLocaleDateString(),
+          }));
+
+          updatedDataSource.forEach((dato: any) => {
+            if (dato.tipoMaterial === "ENTRADA") {
+              dato.entradas = dato.quantity;
+            }
+            if (dato.tipoMaterial === "SALIDA") {
+              dato.salidas = dato.quantity;
+            }
+          });
+          resolve(updatedDataSource);
+        }, 1500);
+      });
+
+      setLoading(false);
+      setDataSource(datos);
+    } else {
+      setLoading(true);
+    }
+  }, [materialSelected]);
+  if (loading) return <div>Selecciona un material</div>;
+
+  const columns: Column[] = [];
+  columns.push({ name: "id", header: "Identificador" });
+  columns.push({ name: "creation_date", header: "Fecha del movimiento" });
+  columns.push({ name: "entradas", header: "Entradas" });
+  columns.push({ name: "salidas", header: "Salidas" });
+
+  return (
+    <>
+      <TableReactDataGrid dataSource={dataSource} columns={columns} />
+      <div className="flex justify-end pr-0 mt-5 text-lg mb-24">
+        Cantidad disponible: {cantidadDisponible}
+      </div>
+    </>
   );
 };
 
