@@ -3,7 +3,19 @@ import { Column } from "@/utils/utils";
 import { useNavigationContext } from "@/context/NavigationContext";
 import TableMaterials from "@/components/TableMaterials";
 import { FormDialogCreateMaterial } from "@/components/dialog/FormDialogCreateMaterial";
-import { useInventoryContext } from "@/context/InventoryContext";
+import {
+  InventoryContextProvider,
+  useInventoryContext,
+} from "@/context/InventoryContext";
+import Layout from "@/layouts/Layout";
+
+const MaterialsManagementPage = () => (
+  <Layout>
+    <InventoryContextProvider>
+      <MaterialsManagement />
+    </InventoryContextProvider>
+  </Layout>
+);
 
 const MaterialsManagement = () => {
   const { setTituloHeader } = useNavigationContext();
@@ -105,4 +117,4 @@ const ButtonAddMaterial = () => {
   );
 };
 
-export default MaterialsManagement;
+export default MaterialsManagementPage;
