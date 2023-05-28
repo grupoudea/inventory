@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { Material } from "@prisma/client";
-import TableInventory from "@/components/TableInventory";
+import React, { useEffect } from "react";
 import { Column } from "@/utils/utils";
 import { useNavigationContext } from "@/context/NavigationContext";
 import TableMaterials from "@/components/TableMaterials";
+import { FormDialogCreateMaterial } from "@/components/dialog/FormDialogCreateMaterial";
+import { useInventoryContext } from "@/context/InventoryContext";
 
 const MaterialsManagement = () => {
   const { setTituloHeader } = useNavigationContext();
@@ -14,10 +14,12 @@ const MaterialsManagement = () => {
 
   return (
     <div className="flex w-full flex-col h-full px-5">
-      <div className="flex justify-between">
+      <div className="flex justify-end">
         <ButtonAddMaterial></ButtonAddMaterial>
       </div>
       <MaterialsTable></MaterialsTable>
+
+      <FormDialogCreateMaterial />
     </div>
   );
 };
@@ -72,9 +74,6 @@ const MaterialsTable = () => {
     ...dato,
     creation_date: dato.creation_date.toLocaleDateString(),
   }));
-  
-  console.log('dataSource')
-  console.log(dataSource)
 
   const columns: Column[] = [];
   columns.push({ name: "id", header: "Identificador" });
@@ -95,12 +94,15 @@ const MaterialsTable = () => {
   );
 };
 
-const ButtonAddMaterial = () => (
-  <div className="flex my-5 justify-end">
-    <button type="button" onClick={() => console.log("guardar")}>
-      Agregar material
-    </button>
-  </div>
-);
+const ButtonAddMaterial = () => {
+  const { setOpenDialogMaterials } = useInventoryContext();
+  return (
+    <div className="flex my-5 justify-end">
+      <button type="button" onClick={() => setOpenDialogMaterials(true)}>
+        Agregar material
+      </button>
+    </div>
+  );
+};
 
 export default MaterialsManagement;

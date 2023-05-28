@@ -1,6 +1,19 @@
-import { createContext, useContext } from "react";
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useContext,
+  useState,
+} from "react";
 
-interface InventoryContextProps {}
+interface InventoryContextProps {
+  openDialogMovements: boolean;
+  setOpenDialogMovements: Dispatch<SetStateAction<boolean>>;
+  openDialogMaterials: boolean;
+  setOpenDialogMaterials: Dispatch<SetStateAction<boolean>>;
+  openDialogUsers: boolean;
+  setOpenDialogUsers: Dispatch<SetStateAction<boolean>>;
+}
 
 const InventoryContext = createContext<InventoryContextProps>(
   {} as InventoryContextProps
@@ -15,8 +28,24 @@ interface InventoryContextProviderProps {
 const InventoryContextProvider = ({
   children,
 }: InventoryContextProviderProps) => {
+  
+  const [openDialogMovements, setOpenDialogMovements] = useState<boolean>(false);
+  const [openDialogMaterials, setOpenDialogMaterials] = useState<boolean>(false);
+  const [openDialogUsers, setOpenDialogUsers] = useState<boolean>(false);
+
   return (
-    <InventoryContext.Provider value={{}}>{children}</InventoryContext.Provider>
+    <InventoryContext.Provider
+      value={{
+        openDialogMovements,
+        setOpenDialogMovements,
+        openDialogMaterials,
+        setOpenDialogMaterials,
+        openDialogUsers,
+        setOpenDialogUsers,
+      }}
+    >
+      {children}
+    </InventoryContext.Provider>
   );
 };
 
