@@ -44,11 +44,10 @@ const InventoryTable = ({ materialSelected }) => {
   // TODO Tambien el calculo de la cantidad disponible.
   // TODO organizar el objeto response de la forma de [datos]
 
-  console.log("materialSelected");
-  console.log(materialSelected);
-
   let dataSource: any[] = [];
   let cantidadDisponible = 0;
+
+  const loading = false; //TODO Cargar con el servicio
 
   if (materialSelected) {
     let datos = {
@@ -108,6 +107,8 @@ const InventoryTable = ({ materialSelected }) => {
 
     cantidadDisponible = datos.cantidadDisponible;
   }
+
+  if (loading) return <div>Loading...</div>;
 
   const columns: Column[] = [];
   columns.push({ name: "id", header: "Identificador" });
