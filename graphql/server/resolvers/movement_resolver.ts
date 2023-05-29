@@ -1,6 +1,11 @@
 import { Resolver } from '@/types';
 
 const movementResolvers: Resolver = {
+    Movement:{
+        creation_date : async(parent,args,context)=>{
+            return new Date(parent.creation_date).toLocaleDateString("en-GB");
+        }
+    },
   Query: {
     movements: async (parent, args, context) => {
         const whereClause = args.idMaterial ? { material_id: args.idMaterial } : {};

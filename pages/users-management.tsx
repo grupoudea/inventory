@@ -7,6 +7,10 @@ import { useNavigationContext } from "@/context/NavigationContext";
 import { useEffect } from "react";
 import { Column } from "@/utils/utils";
 import TableUsers from "@/components/TableUsers";
+import { useQuery } from "@apollo/client";
+import { GET_USERS } from "@/graphql/client/user";
+import { Profile, User } from "@prisma/client";
+import TableReactDataGrid from "@/components/TableReactDataGrid";
 
 const UsersManagementPage = () => (
   <>
@@ -39,42 +43,25 @@ const UsersTable = () => {
   // TODO Tambien el calculo de la cantidad disponible.
   // TODO organizar el objeto response de la forma de [datos]
 
-  let dataSource: any[] = [];
-  let cantidadDisponible = 0;
+  const {data,loading,error} = useQuery<{users:any[]}>(
+    GET_USERS, {
+      fetchPolicy: 'cache-first',
+    }
+  );
 
-  let datos = [
-      {
-        email: "jhon@hotmail.com",
-        id: 2,
-        rol: {
-        name: "Admin"
-        }
-      },
-      {
-        email: "juanguillermoalarcon@gmail.com",
-        id: 3,
-        rol: {
-          name: "Admin"
-        }
-      }
-  ];
-
-  // dataSource = datos.map((dato) => ({
-  //   ...dato,
-  //   creation_date: dato.creation_date.toLocaleDateString(),
-  // }));
-
+  let users : any[] = data?.users || [];
+  // console.log(users);
+  
   const columns: Column[] = [];
   columns.push({ name: "id", header: "Identificador" });
-  columns.push({ name: "creation_date", header: "Fecha del creación" });
+  columns.push({ name: "creation_date", header: "Fecha de creación" });
   columns.push({ name: "email", header: "Correo" });
-  columns.push({ name: "rol.name", header: "Role" });
+  columns.push({ name: "rol", header: "Rol" });
 
   return (
     <>
-      <TableUsers dataSource={dataSource} columns={columns} />
+      <TableUsers dataSource={users} columns={columns} />
       <div className="flex justify-end pr-0 mt-5 text-lg mb-24">
-        Cantidad disponible: {cantidadDisponible}
       </div>
     </>
   );

@@ -68,7 +68,7 @@ const InventoryTable2 = ({ materialSelected }: any) => {
     if (materialSelected) {
       const datos = new Promise((resolve) => {
         setTimeout(() => {
-          const testData = Array.from({ length: 10 }, (_, index) => ({
+          const testData = Array.from({ length: 200 }, (_, index) => ({
             id: index + 1,
             quantity: index * 3,
             creation_date: new Date(),
