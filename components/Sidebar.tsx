@@ -24,7 +24,7 @@ const Sidebar = () => {
             <SidebarLink href="/inventory-management" title={"Inventario"} />
             <SidebarLink href="/materials-management" title={"Materiales"} />
             {/* <PrivateRoute role={"ADMIN"}> */}
-              <SidebarLink href="/users-management" title={"Usuarios"} />
+            <SidebarLink href="/users-management" title={"Usuarios"} />
             {/* </PrivateRoute> */}
           </ul>
         </nav>
