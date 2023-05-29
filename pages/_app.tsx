@@ -1,20 +1,23 @@
-import '@/styles/globals.css'
-import { ApolloClient, ApolloProvider, InMemoryCache } from '@apollo/client';
-import type { AppProps } from 'next/app'
+import "@/styles/globals.css";
+import { ApolloClient, ApolloProvider, InMemoryCache } from "@apollo/client";
+import { SessionProvider } from "next-auth/react";
+import type { AppProps } from "next/app";
 
-import React from 'react'
+import React from "react";
 
-const App = ({ Component, pageProps }: AppProps) => {
+const App = ({ Component, pageProps: { session, ...pageProps } }: AppProps) => {
   const client = new ApolloClient({
-    uri: 'https://replaceme.com/',
+    uri: "/api/graphql",
     cache: new InMemoryCache(),
   });
 
-  return(
-    <ApolloProvider client={client}>
-      <Component {...pageProps} />
-    </ApolloProvider>
-  )
-}
+  return (
+    <SessionProvider session={session}>
+      <ApolloProvider client={client}>
+        <Component {...pageProps} />
+      </ApolloProvider>
+    </SessionProvider>
+  );
+};
 
-export default App
+export default App;

@@ -6,3 +6,52 @@
 .debug {
     border: 1px solid red;
 }
+
+.debug-blue {
+    border: 1px solid blue;
+}
+
+.debug-green {
+    border: 1px solid green;
+}
+
+label {
+    @apply flex flex-col;
+}
+
+input,
+select {
+    @apply rounded-lg border border-gray-300 px-2 py-1 outline-none focus:border-indigo-500;
+}
+
+button,
+button[type='button'],
+button[type='submit'] {
+    @apply rounded-lg bg-indigo-800 px-3 py-2 text-white hover:bg-indigo-500;
+}
+
+button:disabled {
+    @apply cursor-not-allowed bg-gray-300 text-gray-500;
+}
+
+button.secondary {
+    @apply bg-gray-400 text-gray-800 hover:bg-gray-200;
+}
+
+
+
+li {
+    @apply rounded-md border border-gray-500 px-3 py-2 text-gray-200;
+}
+
+li:hover {
+    @apply cursor-pointer bg-indigo-500;
+}
+
+li.active {
+    @apply border border-indigo-600 bg-neutral-950;
+}
+
+.sidebar-desktop {
+    @apply w-64 px-3 py-5 text-white md:relative;
+}
