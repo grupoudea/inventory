@@ -10,6 +10,7 @@ import TableUsers from "@/components/TableUsers";
 import { useQuery } from "@apollo/client";
 import { GET_USERS } from "@/graphql/client/user";
 import PrivateRoute from "@/components/PrivateRoute";
+import { FormDialogCreateUser } from "@/components/dialog/FormDialogCreateUser";
 
 const UsersManagementPage = () => (
   <PrivateRoute>
@@ -32,7 +33,10 @@ const UsersManagement = () => {
     <div className="debug-blue flex flex-col w-full h-full px-5">
       <ButtonAddUser />
       <UsersTable />
-      <div>modal</div>
+      <FormDialogCreateUser
+        titleDialog={"Crear usuario"}
+        isEdit={false}
+      ></FormDialogCreateUser>
     </div>
   );
 };
@@ -63,10 +67,10 @@ const UsersTable = () => {
 };
 
 const ButtonAddUser = () => {
-  const { setOpenDialogMaterials } = useInventoryContext();
+  const { setOpenDialogUsers } = useInventoryContext();
   return (
     <div className="flex my-5 justify-end">
-      <button type="button" onClick={() => setOpenDialogMaterials(true)}>
+      <button type="button" onClick={() => setOpenDialogUsers(true)}>
         Agregar Usuario
       </button>
     </div>
