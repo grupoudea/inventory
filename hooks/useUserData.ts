@@ -17,8 +17,6 @@ const useUserData = () => {
     }
   );
 
-  console.log("userdata: ", userData);
-
   return {
     loading,
     status,

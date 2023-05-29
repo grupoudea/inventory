@@ -1,11 +1,10 @@
 import { Resolver } from "@/types";
 
 const userResolvers: Resolver = {
-    User:{
-        creation_date : async(parent,args,context)=>{
-            return new Date(parent.creation_date).toLocaleDateString("en-GB");
-        }
-    },
+  User: {
+    creation_date: async (parent, args, context) =>
+      new Date(parent.creation_date).toLocaleDateString("en-GB"),
+  },
   Query: {
     users: async (parent, args, context) => {
       const users = await context.db.user.findMany({
