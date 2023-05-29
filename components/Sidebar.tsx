@@ -4,6 +4,8 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import styles from "@/styles/CircularImage.module.css";
+import PrivateRoute from "./PrivateRoute";
+import { signOut } from "next-auth/react";
 
 const Sidebar = () => {
   // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
@@ -23,14 +25,12 @@ const Sidebar = () => {
           <ul className="flex flex-col gap-3">
             <SidebarLink href="/inventory-management" title={"Inventario"} />
             <SidebarLink href="/materials-management" title={"Materiales"} />
-            <SidebarLink href="/users-management" title={"Usuarios"} />
+            <PrivateRoute role={"ADMIN"}>
+              <SidebarLink href="/users-management" title={"Usuarios"} />
+            </PrivateRoute>
           </ul>
         </nav>
-        <button
-          type="button"
-          className="border-1"
-          onClick={() => {}} //TODO Agregar servicio para cerrar sesión
-        >
+        <button type="button" className="border-1" onClick={() => signOut()}>
           Log out
         </button>
       </div>
@@ -56,8 +56,6 @@ interface SidebarLinkProps {
 
 const SidebarLink = ({ href, title }: SidebarLinkProps) => {
   const router = useRouter();
-  console.log(`path: , ${router.pathname} href: ${href}`);
-
   const isActive = router.pathname === href;
 
   return (

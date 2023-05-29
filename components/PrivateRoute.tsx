@@ -1,13 +1,18 @@
 import React from "react";
 import Layout from "@/layouts/Layout";
+import { useUserData } from "@/hooks/useUserData";
 
 interface PrivateRouteProps {
-  role?: any;
+  role?: string;
   children: React.ReactNode;
 }
 
 const PrivateRoute = ({ role, children }: PrivateRouteProps) => {
-  let { status, loading, session, role: userRole } = ""; //TODO Agregar useUserData(); para tomar los datos de la sesion
+  let { status, loading, session, role: userRole } = useUserData();
+  console.log("status: ", status);
+  console.log("loading:", loading);
+  console.log("session: ", session);
+  console.log("userrole: ", userRole);
 
   if (status === "loading" || loading)
     return (
@@ -18,7 +23,8 @@ const PrivateRoute = ({ role, children }: PrivateRouteProps) => {
 
   if (!session) return <UnauthorizedPage></UnauthorizedPage>;
 
-  if (role && role !== userRole)
+  if (role && role !== userRole) {
+    console.log("rol malo");
     return (
       <Layout>
         <div className="flex h-screen w-full flex-col items-center justify-center gap-4">
@@ -26,6 +32,8 @@ const PrivateRoute = ({ role, children }: PrivateRouteProps) => {
         </div>
       </Layout>
     );
+  }
+  console.log("llega aqui cuando estpa todo bien");
 
   return <>{children}</>;
 };
