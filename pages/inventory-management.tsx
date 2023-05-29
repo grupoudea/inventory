@@ -1,6 +1,5 @@
 import React, { useEffect, useState } from "react";
 import { Material } from "@prisma/client";
-import TableInventory from "@/components/TableInventory";
 import { Column } from "@/utils/utils";
 import Layout from "@/layouts/Layout";
 import { useNavigationContext } from "@/context/NavigationContext";
@@ -62,54 +61,11 @@ const InventoryTable2 = ({ materialSelected }: any) => {
   // TODO organizar el objeto response de la forma de [datos]
 
   const [dataSource, setDataSource] = useState<any>([]);
-  const [cantidadDisponible, setCantidadDisponible] = useState<number>(35);
+  const [cantidadDisponible] = useState<number>(35);
   const [loading, setLoading] = useState(true);
-
-  console.log("materialSelected", materialSelected);
 
   useEffect(() => {
     if (materialSelected) {
-      // let datos = {
-      //   movimientos: [
-      //     {
-      //       id: 1,
-      //       quantity: 1,
-      //       creation_date: new Date(),
-      //       material_id: 1,
-      //       tipoMaterial: "ENTRADA",
-      //     },
-      //     {
-      //       id: 2,
-      //       quantity: 1,
-      //       creation_date: new Date(),
-      //       material_id: 2,
-      //       tipoMaterial: "SALIDA",
-      //     },
-      //     {
-      //       id: 3,
-      //       quantity: 1,
-      //       creation_date: new Date(),
-      //       material_id: 2,
-      //       tipoMaterial: "SALIDA",
-      //     },
-      //     {
-      //       id: 4,
-      //       quantity: 1,
-      //       creation_date: new Date(),
-      //       material_id: 2,
-      //       tipoMaterial: "SALIDA",
-      //     },
-      //     {
-      //       id: 5,
-      //       quantity: 1,
-      //       creation_date: new Date(),
-      //       material_id: 2,
-      //       tipoMaterial: "SALIDA",
-      //     },
-      //   ],
-      //   cantidadDisponible: 35,
-      // };
-
       const datos = new Promise((resolve) => {
         setTimeout(() => {
           const testData = Array.from({ length: 200 }, (_, index) => ({
@@ -117,7 +73,7 @@ const InventoryTable2 = ({ materialSelected }: any) => {
             quantity: index * 3,
             creation_date: new Date(),
             material_id: (index + 2) * 100,
-            tipoMaterial: index % 2 == 0 ? "ENTRANDA" : "SALIDA",
+            movement_type: index % 2 == 0 ? "ENTRADA" : "SALIDA",
           }));
 
           const updatedDataSource: any = testData.map((dato) => ({
@@ -126,10 +82,10 @@ const InventoryTable2 = ({ materialSelected }: any) => {
           }));
 
           updatedDataSource.forEach((dato: any) => {
-            if (dato.tipoMaterial === "ENTRADA") {
+            if (dato.movement_type === "ENTRADA") {
               dato.entradas = dato.quantity;
             }
-            if (dato.tipoMaterial === "SALIDA") {
+            if (dato.movement_type === "SALIDA") {
               dato.salidas = dato.quantity;
             }
           });
@@ -154,96 +110,6 @@ const InventoryTable2 = ({ materialSelected }: any) => {
   return (
     <>
       <TableReactDataGrid dataSource={dataSource} columns={columns} />
-      <div className="flex justify-end pr-0 mt-5 text-lg mb-24">
-        Cantidad disponible: {cantidadDisponible}
-      </div>
-    </>
-  );
-};
-
-const InventoryTable = ({ materialSelected }: { materialSelected: number }) => {
-  // TODO Servico para consultar los movimientos, el servicio debe retornar la lista de movimientos con filtro.
-  // TODO usar [materialSelected] para el filtro
-  // TODO Tambien el calculo de la cantidad disponible.
-  // TODO organizar el objeto response de la forma de [datos]
-
-  let dataSource: any[] = [];
-  let cantidadDisponible = 0;
-
-  const loading = false; //TODO Cargar con el servicio
-
-  if (materialSelected) {
-    let datos = {
-      movimientos: [
-        {
-          id: 1,
-          quantity: 1,
-          creation_date: new Date(),
-          material_id: 1,
-          tipoMaterial: "ENTRADA",
-        },
-        {
-          id: 2,
-          quantity: 1,
-          creation_date: new Date(),
-          material_id: 2,
-          tipoMaterial: "SALIDA",
-        },
-        {
-          id: 3,
-          quantity: 1,
-          creation_date: new Date(),
-          material_id: 2,
-          tipoMaterial: "SALIDA",
-        },
-        {
-          id: 4,
-          quantity: 1,
-          creation_date: new Date(),
-          material_id: 2,
-          tipoMaterial: "SALIDA",
-        },
-        {
-          id: 5,
-          quantity: 1,
-          creation_date: new Date(),
-          material_id: 2,
-          tipoMaterial: "SALIDA",
-        },
-      ],
-      cantidadDisponible: 35,
-    };
-
-    dataSource = datos.movimientos.map((dato) => ({
-      ...dato,
-      creation_date: dato.creation_date.toLocaleDateString(),
-    }));
-
-    dataSource.forEach((dato) => {
-      if (dato.tipoMaterial == "ENTRADA") {
-        dato.entradas = dato.quantity;
-      }
-      if (dato.tipoMaterial == "SALIDA") {
-        dato.salidas = dato.quantity;
-      }
-    });
-    cantidadDisponible = datos.cantidadDisponible;
-  }
-
-  if (loading) return <div>Loading...</div>;
-
-  const columns: Column[] = [];
-  columns.push({ name: "id", header: "Identificador" });
-  columns.push({ name: "creation_date", header: "Fecha del movimiento" });
-  columns.push({ name: "entradas", header: "Entradas" });
-  columns.push({ name: "salidas", header: "Salidas" });
-
-  return (
-    <>
-      <TableInventory
-        dataSource={dataSource}
-        columns={columns}
-      ></TableInventory>
       <div className="flex justify-end pr-0 mt-5 text-lg mb-24">
         Cantidad disponible: {cantidadDisponible}
       </div>
