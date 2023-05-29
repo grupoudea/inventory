@@ -32,9 +32,8 @@ const InventoryPage: NextPage = () => (
 );
 
 const InventoryManagement = () => {
-  const [materialSelected, setMaterialSelected] = useState<any>("");
+  const [materialSelected, setMaterialSelected] = useState<number>(0);
   const { setTituloHeader } = useNavigationContext();
-
   useEffect(() => {
     setTituloHeader("Gestión de inventarios");
   }, []);
@@ -55,7 +54,7 @@ const InventoryManagement = () => {
   );
 };
 
-const InventoryTable = ({ materialSelected }) => {
+const InventoryTable = ({ materialSelected }: { materialSelected: number }) => {
   // TODO Servico para consultar los movimientos, el servicio debe retornar la lista de movimientos con filtro.
   // TODO usar [materialSelected] para el filtro
   // TODO Tambien el calculo de la cantidad disponible.
@@ -130,12 +129,20 @@ const ButtonAddMovement = () => {
   );
 };
 
-const InputSearchMovement = ({ materialSelected, setMaterialSelected }) => {
+const InputSearchMovement = ({
+  materialSelected,
+  setMaterialSelected,
+}: {
+  materialSelected: number;
+  setMaterialSelected: React.Dispatch<React.SetStateAction<number>>;
+}) => {
   // TODO Servico para consultar los materiales
   // TODO organizar el objeto response de la forma de [materiales]
 
-  const handleMaterialChange = (event) => {
-    setMaterialSelected(event.target.value);
+  const handleMaterialChange = (
+    event: React.ChangeEvent<HTMLSelectElement>
+  ) => {
+    setMaterialSelected(parseInt(event.target.value, 10));
   };
 
   let materiales: Material[] = [
