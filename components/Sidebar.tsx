@@ -25,9 +25,9 @@ const Sidebar = () => {
           <ul className="flex flex-col gap-3">
             <SidebarLink href="/inventory-management" title={"Inventario"} />
             <SidebarLink href="/materials-management" title={"Materiales"} />
-            <PrivateRoute role={"ADMIN"}>
+            {/* <PrivateRoute role={"ADMIN"}> */}
               <SidebarLink href="/users-management" title={"Usuarios"} />
-            </PrivateRoute>
+            {/* </PrivateRoute> */}
           </ul>
         </nav>
         <button type="button" className="border-1" onClick={() => signOut()}>

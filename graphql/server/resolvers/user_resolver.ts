@@ -1,6 +1,7 @@
 import { Resolver } from "@/types";
 
 const userResolvers: Resolver = {
+
   Query: {
     users: async (parent, args, context) => {
       const users = await context.db.user.findMany({
@@ -24,11 +25,10 @@ const userResolvers: Resolver = {
   },
   Mutation: {
     createUser: async (parent, args, context) => {
-      const { email, password, rolId } = args;
+      const { email, rolId } = args;
       const newUser = await context.db.user.create({
         data: {
           email,
-          password,
           rol: {
             connect: { id: rolId },
           },
@@ -37,12 +37,11 @@ const userResolvers: Resolver = {
       return newUser;
     },
     updateUser: async (parent, args, context) => {
-      const { id, email, password, rolId } = args;
+      const { id, email, rolId } = args;
       const updatedUser = await context.db.user.update({
         where: { id },
         data: {
           email,
-          password,
           rol: {
             connect: { id: rolId },
           },

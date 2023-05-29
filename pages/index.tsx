@@ -9,7 +9,7 @@ const index = () => {
   console.log("session", session);
 
   if (session) {
-    router.push("/inventory-management");
+    // router.push("/inventory-management");
   }
 
   return (
