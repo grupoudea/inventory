@@ -1,0 +1,11 @@
+.circularImage {
+    width: 200px;
+    height: 200px;
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  
+.circularImage > div {
+    border-radius: 50% !important;
+    overflow: hidden !important;
+}
