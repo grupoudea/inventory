@@ -41,8 +41,7 @@ const UsersTable = () => {
   // TODO Tambien el calculo de la cantidad disponible.
   // TODO organizar el objeto response de la forma de [datos]
 
-  // eslint-disable-next-line no-unused-vars
-  const { data, loading, error } = useQuery<{ users: any[] }>(GET_USERS, {
+  const { data } = useQuery<{ users: any[] }>(GET_USERS, {
     fetchPolicy: "cache-first",
   });
 
