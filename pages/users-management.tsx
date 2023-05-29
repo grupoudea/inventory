@@ -42,12 +42,11 @@ const UsersTable = () => {
   // TODO Tambien el calculo de la cantidad disponible.
   // TODO organizar el objeto response de la forma de [datos]
 
-  const { data, loading, error } = useQuery<{ users: any[] }>(GET_USERS, {
+  const { data } = useQuery<{ users: any[] }>(GET_USERS, {
     fetchPolicy: "cache-first",
   });
 
   let users: any[] = data?.users || [];
-  // console.log(users);
 
   const columns: Column[] = [];
   columns.push({ name: "id", header: "Identificador" });
