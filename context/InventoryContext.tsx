@@ -28,9 +28,10 @@ interface InventoryContextProviderProps {
 const InventoryContextProvider = ({
   children,
 }: InventoryContextProviderProps) => {
-  
-  const [openDialogMovements, setOpenDialogMovements] = useState<boolean>(false);
-  const [openDialogMaterials, setOpenDialogMaterials] = useState<boolean>(false);
+  const [openDialogMovements, setOpenDialogMovements] =
+    useState<boolean>(false);
+  const [openDialogMaterials, setOpenDialogMaterials] =
+    useState<boolean>(false);
   const [openDialogUsers, setOpenDialogUsers] = useState<boolean>(false);
 
   return (

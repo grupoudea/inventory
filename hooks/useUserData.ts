@@ -5,11 +5,7 @@ import { ExtendedUser } from "@/types";
 
 const useUserData = () => {
   const { data: session, status } = useSession();
-
   const userEmail = session?.user?.email;
-
-  console.log("usermail: ", userEmail);
-  
 
   const { data: userData, loading } = useQuery<{ user: ExtendedUser }>(
     GET_USER,

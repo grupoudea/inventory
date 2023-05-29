@@ -4,12 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import styles from "@/styles/CircularImage.module.css";
-import PrivateRoute from "./PrivateRoute";
 import { signOut } from "next-auth/react";
 
 const Sidebar = () => {
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  const { open, setOpen } = useNavigationContext();
+  const { open } = useNavigationContext();
 
   return (
     <aside
