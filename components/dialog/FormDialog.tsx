@@ -14,13 +14,11 @@ const FormDialog = ({
   setOpen,
   formDialogTitle,
   children,
-}: FormDialogProps) => {
-  return (
-    <Dialog open={open} onClose={() => setOpen(false)}>
-      <DialogTitle>{formDialogTitle}</DialogTitle>
-      <DialogContent>{children}</DialogContent>
-    </Dialog>
-  );
-};
+}: FormDialogProps) => (
+  <Dialog open={open} onClose={() => setOpen(false)}>
+    <DialogTitle>{formDialogTitle}</DialogTitle>
+    <DialogContent>{children}</DialogContent>
+  </Dialog>
+);
 
 export default FormDialog;

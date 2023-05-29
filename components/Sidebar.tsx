@@ -4,12 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import Image from "next/image";
 import styles from "@/styles/CircularImage.module.css";
-import PrivateRoute from "./PrivateRoute";
 import { signOut } from "next-auth/react";
 
 const Sidebar = () => {
-  // eslint-disable-next-line no-unused-vars, @typescript-eslint/no-unused-vars
-  const { open, setOpen } = useNavigationContext();
+  const { open } = useNavigationContext();
 
   return (
     <aside
@@ -25,9 +23,9 @@ const Sidebar = () => {
           <ul className="flex flex-col gap-3">
             <SidebarLink href="/inventory-management" title={"Inventario"} />
             <SidebarLink href="/materials-management" title={"Materiales"} />
-            <PrivateRoute role={"ADMIN"}>
-              <SidebarLink href="/users-management" title={"Usuarios"} />
-            </PrivateRoute>
+            {/*<PrivateRoute role={"ADMIN"}>*/}
+            <SidebarLink href="/users-management" title={"Usuarios"} />
+            {/*</PrivateRoute>*/}
           </ul>
         </nav>
         <button type="button" className="border-1" onClick={() => signOut()}>

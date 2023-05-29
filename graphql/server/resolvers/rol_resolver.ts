@@ -1,5 +1,5 @@
 
-import { Resolver } from '../../../types';
+import { Resolver } from '@/types';
 
 const rolResolvers: Resolver = {
   Query: {

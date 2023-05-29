@@ -25,6 +25,8 @@ const FormDialogAddMovement = () => {
         tipo_movimiento: formData.tipoMovimiento,
       };
 
+      console.log(movimiento);
+
       //TODO Servicio para guardar el movimiento, ya esta construido de forma Movement
       //TODO falta agregar el tipo movimiento, la entity no tiene el campo
 

@@ -3,7 +3,6 @@ import Image from "next/image";
 import { useNavigationContext } from "@/context/NavigationContext";
 
 const Header = () => {
-  const { open, setOpen } = useNavigationContext();
   const { tituloHeader } = useNavigationContext();
 
   return (

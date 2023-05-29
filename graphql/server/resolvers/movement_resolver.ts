@@ -1,4 +1,4 @@
-import { Resolver } from '../../../types';
+import { Resolver } from '@/types';
 
 const movementResolvers: Resolver = {
   Query: {
