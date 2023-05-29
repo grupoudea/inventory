@@ -8,13 +8,16 @@ import {
   useInventoryContext,
 } from "@/context/InventoryContext";
 import Layout from "@/layouts/Layout";
+import PrivateRoute from "@/components/PrivateRoute";
 
 const MaterialsManagementPage = () => (
-  <Layout>
-    <InventoryContextProvider>
-      <MaterialsManagement />
-    </InventoryContextProvider>
-  </Layout>
+  <PrivateRoute>
+    <Layout>
+      <InventoryContextProvider>
+        <MaterialsManagement />
+      </InventoryContextProvider>
+    </Layout>
+  </PrivateRoute>
 );
 
 const MaterialsManagement = () => {

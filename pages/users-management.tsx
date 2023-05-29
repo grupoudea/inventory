@@ -9,15 +9,16 @@ import { Column } from "@/utils/utils";
 import TableUsers from "@/components/TableUsers";
 import { useQuery } from "@apollo/client";
 import { GET_USERS } from "@/graphql/client/user";
+import PrivateRoute from "@/components/PrivateRoute";
 
 const UsersManagementPage = () => (
-  <>
+  <PrivateRoute>
     <Layout>
       <InventoryContextProvider>
         <UsersManagement />
       </InventoryContextProvider>
     </Layout>
-  </>
+  </PrivateRoute>
 );
 
 const UsersManagement = () => {
