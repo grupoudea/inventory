@@ -4,6 +4,7 @@ import { MdDataset } from "react-icons/md";
 import { useRouter } from "next/router";
 
 const index = () => {
+  // eslint-disable-next-line no-unused-vars
   const router = useRouter();
   const { data: session } = useSession();
   console.log("session", session);

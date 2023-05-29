@@ -11,7 +11,7 @@ interface TableReactDataGridProps {
 
 const TableReactDataGrid = (config: TableReactDataGridProps) => {
   const columns: any[] = [];
-  
+
   config.columns.forEach((col) => {
     let typeColum: TypeColumn = {
       name: col.name,

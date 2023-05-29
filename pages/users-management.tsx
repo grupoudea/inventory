@@ -9,8 +9,6 @@ import { Column } from "@/utils/utils";
 import TableUsers from "@/components/TableUsers";
 import { useQuery } from "@apollo/client";
 import { GET_USERS } from "@/graphql/client/user";
-import { Profile, User } from "@prisma/client";
-import TableReactDataGrid from "@/components/TableReactDataGrid";
 
 const UsersManagementPage = () => (
   <>
@@ -43,15 +41,13 @@ const UsersTable = () => {
   // TODO Tambien el calculo de la cantidad disponible.
   // TODO organizar el objeto response de la forma de [datos]
 
-  const {data,loading,error} = useQuery<{users:any[]}>(
-    GET_USERS, {
-      fetchPolicy: 'cache-first',
-    }
-  );
+  // eslint-disable-next-line no-unused-vars
+  const { data, loading, error } = useQuery<{ users: any[] }>(GET_USERS, {
+    fetchPolicy: "cache-first",
+  });
 
-  let users : any[] = data?.users || [];
-  // console.log(users);
-  
+  let users: any[] = data?.users || [];
+
   const columns: Column[] = [];
   columns.push({ name: "id", header: "Identificador" });
   columns.push({ name: "creation_date", header: "Fecha de creación" });
@@ -61,8 +57,7 @@ const UsersTable = () => {
   return (
     <>
       <TableUsers dataSource={users} columns={columns} />
-      <div className="flex justify-end pr-0 mt-5 text-lg mb-24">
-      </div>
+      <div className="flex justify-end pr-0 mt-5 text-lg mb-24"></div>
     </>
   );
 };
