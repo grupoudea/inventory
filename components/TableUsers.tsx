@@ -30,11 +30,11 @@ const TableUsers = (config: TableConfig) => (
                     {item.creation_date}
                   </td>
                   <td className="px-6 py-4 text-sm text-gray-800 text-center whitespace-nowrap">
-                    {item.correo}
+                    {item.email}
                   </td>
                   <td className="px-6 py-4 text-sm font-medium text-center whitespace-nowrap">
                     <a className="text-gray-800 hover:text-gray-800" href="#">
-                      {item.rol}
+                      {item.rol.name}
                     </a>
                   </td>
                 </tr>
