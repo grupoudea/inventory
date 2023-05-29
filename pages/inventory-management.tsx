@@ -31,7 +31,7 @@ const InventoryPage: NextPage = () => (
 );
 
 const InventoryManagement = () => {
-  const [materialSelected, setMaterialSelected] = useState<number>(0);
+  const [materialSelected, setMaterialSelected] = useState<any>("");
   const { setTituloHeader } = useNavigationContext();
 
   useEffect(() => {
@@ -47,14 +47,14 @@ const InventoryManagement = () => {
         />
         <ButtonAddMovement />
       </div>
-      <InventoryTable2 materialSelected={materialSelected}></InventoryTable2>
+      <InventoryTable materialSelected={materialSelected}></InventoryTable>
 
       <FormDialogAddMovement />
     </div>
   );
 };
 
-const InventoryTable2 = ({ materialSelected }: any) => {
+const InventoryTable = ({ materialSelected }) => {
   // TODO Servico para consultar los movimientos, el servicio debe retornar la lista de movimientos con filtro.
   // TODO usar [materialSelected] para el filtro
   // TODO Tambien el calculo de la cantidad disponible.
@@ -129,20 +129,12 @@ const ButtonAddMovement = () => {
   );
 };
 
-const InputSearchMovement = ({
-  materialSelected,
-  setMaterialSelected,
-}: {
-  materialSelected: number;
-  setMaterialSelected: React.Dispatch<React.SetStateAction<number>>;
-}) => {
+const InputSearchMovement = ({ materialSelected, setMaterialSelected }) => {
   // TODO Servico para consultar los materiales
   // TODO organizar el objeto response de la forma de [materiales]
 
-  const handleMaterialChange = (
-    event: React.ChangeEvent<HTMLSelectElement>
-  ) => {
-    setMaterialSelected(parseInt(event.target.value, 10));
+  const handleMaterialChange = (event) => {
+    setMaterialSelected(event.target.value);
   };
 
   let materiales: Material[] = [
