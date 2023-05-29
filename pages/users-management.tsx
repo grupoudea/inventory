@@ -43,36 +43,32 @@ const UsersTable = () => {
   let cantidadDisponible = 0;
 
   let datos = [
-    {
-      id: 1,
-      creation_date: new Date(),
-      correo: "misupercorreo@misuperempresa.com",
-      rol: "ADMIN",
-    },
-    {
-      id: 2,
-      creation_date: new Date(),
-      correo: "222misupercorreo@misuperempresa.com",
-      rol: "USER",
-    },
-    {
-      id: 3,
-      creation_date: new Date(),
-      correo: "333misupercorreo@misuperempresa.com",
-      rol: "ADMIN",
-    },
+      {
+        email: "jhon@hotmail.com",
+        id: 2,
+        rol: {
+        name: "Admin"
+        }
+      },
+      {
+        email: "juanguillermoalarcon@gmail.com",
+        id: 3,
+        rol: {
+          name: "Admin"
+        }
+      }
   ];
 
-  dataSource = datos.map((dato) => ({
-    ...dato,
-    creation_date: dato.creation_date.toLocaleDateString(),
-  }));
+  // dataSource = datos.map((dato) => ({
+  //   ...dato,
+  //   creation_date: dato.creation_date.toLocaleDateString(),
+  // }));
 
   const columns: Column[] = [];
   columns.push({ name: "id", header: "Identificador" });
   columns.push({ name: "creation_date", header: "Fecha del creación" });
   columns.push({ name: "email", header: "Correo" });
-  columns.push({ name: "role", header: "Role" });
+  columns.push({ name: "rol.name", header: "Role" });
 
   return (
     <>

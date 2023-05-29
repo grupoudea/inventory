@@ -1,6 +1,7 @@
 import { Resolver } from "@/types";
 
 const userResolvers: Resolver = {
+
   Query: {
     users: async (parent, args, context) => {
       const users = await context.db.user.findMany({

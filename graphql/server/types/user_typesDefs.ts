@@ -4,15 +4,15 @@ const userTypesDefs = gql`
 type User {
   id: Int!
   email: String!
-  password: String!
   rol_id:Int!
   rol: Rol!
+  creation_date:String!
 
 }
 
 type Query {
   users: [User!]!
-  user(id: Int!): User
+  user(email: String!): User
 }
 
 type Mutation {
