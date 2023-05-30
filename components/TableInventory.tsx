@@ -1,7 +1,7 @@
 import React from "react";
 import { TableConfig } from "@/utils/utils";
 
-const TableReactDataGrid = (config: TableConfig) => (
+const TableInventory = (config: TableConfig) => (
   <div className="flex flex-col">
     <div className="overflow-x-auto">
       <div className="w-full inline-block align-middle">
@@ -47,4 +47,4 @@ const TableReactDataGrid = (config: TableConfig) => (
   </div>
 );
 
-export default TableReactDataGrid;
+export default TableInventory;

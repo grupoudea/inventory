@@ -162,10 +162,6 @@ const InputSearchMovement = ({
     },
   ];
 
-  if (materiales && materiales.length > 0) {
-    setMaterialSelected(parseInt(String(materiales[0].id), 10));
-  }
-
   return (
     <div className="flex my-5">
       <select

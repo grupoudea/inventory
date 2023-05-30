@@ -13,6 +13,8 @@ interface InventoryContextProps {
   setOpenDialogMaterials: Dispatch<SetStateAction<boolean>>;
   openDialogUsers: boolean;
   setOpenDialogUsers: Dispatch<SetStateAction<boolean>>;
+  isEditUser: boolean;
+  setEditUser: Dispatch<SetStateAction<boolean>>;
 }
 
 const InventoryContext = createContext<InventoryContextProps>(
@@ -33,6 +35,7 @@ const InventoryContextProvider = ({
   const [openDialogMaterials, setOpenDialogMaterials] =
     useState<boolean>(false);
   const [openDialogUsers, setOpenDialogUsers] = useState<boolean>(false);
+  const [isEditUser, setEditUser] = useState<boolean>(false);
 
   return (
     <InventoryContext.Provider
@@ -43,6 +46,8 @@ const InventoryContextProvider = ({
         setOpenDialogMaterials,
         openDialogUsers,
         setOpenDialogUsers,
+        isEditUser,
+        setEditUser,
       }}
     >
       {children}
