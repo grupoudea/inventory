@@ -4,7 +4,7 @@ import {
 } from "@/context/InventoryContext";
 import Layout from "@/layouts/Layout";
 import { useNavigationContext } from "@/context/NavigationContext";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 import { Column } from "@/utils/utils";
 import TableUsers from "@/components/TableUsers";
 import { useQuery } from "@apollo/client";
@@ -24,6 +24,15 @@ const UsersManagementPage = () => (
 
 const UsersManagement = () => {
   const { setTituloHeader } = useNavigationContext();
+  const [userToEditSelected, setUserToEditSelected] = useState(null);
+
+  const handleUserToEditSelected = (item: any) => {
+    setUserToEditSelected(item);
+  };
+
+  const handleResetSeleccion = () => {
+    setUserToEditSelected(null);
+  };
 
   useEffect(() => {
     setTituloHeader("Gestión de usuarios");
@@ -31,20 +40,18 @@ const UsersManagement = () => {
 
   return (
     <div className="debug-blue flex flex-col w-full h-full px-5">
-      <ButtonAddUser />
-      <UsersTable />
+      <ButtonAddUser handleResetSeleccion={handleResetSeleccion} />
+      <UsersTable handleUserToEditSelected={handleUserToEditSelected} />
       <FormDialogCreateUser
-        titleDialog={"Crear usuario"}
-        isEdit={false}
+        userSelected={userToEditSelected}
       ></FormDialogCreateUser>
     </div>
   );
 };
 
-const UsersTable = () => {
-  // TODO Servico para consultar los materiales.
-  // TODO Tambien el calculo de la cantidad disponible.
-  // TODO organizar el objeto response de la forma de [datos]
+const UsersTable = ({ handleUserToEditSelected }: any) => {
+  // TODO Servico para consultar los usuarios con rol.
+  // TODO organizar el objeto response de la forma de [users]
 
   const { data } = useQuery<{ users: any[] }>(GET_USERS, {
     fetchPolicy: "cache-first",
@@ -56,21 +63,37 @@ const UsersTable = () => {
   columns.push({ name: "id", header: "Identificador" });
   columns.push({ name: "creation_date", header: "Fecha de creación" });
   columns.push({ name: "email", header: "Correo" });
-  columns.push({ name: "rol", header: "Rol" });
+  columns.push({ name: "rol_name", header: "Rol" });
+  columns.push({ name: "accion", header: "Acciones" });
+
+  let config = {
+    dataSource: users,
+    columns: columns,
+  };
 
   return (
     <>
-      <TableUsers dataSource={users} columns={columns} />
+      <TableUsers
+        config={config}
+        handleUserToEditSelected={handleUserToEditSelected}
+      />
       <div className="flex justify-end pr-0 mt-5 text-lg mb-24"></div>
     </>
   );
 };
 
-const ButtonAddUser = () => {
+const ButtonAddUser = ({ handleResetSeleccion }: any) => {
   const { setOpenDialogUsers } = useInventoryContext();
+
   return (
     <div className="flex my-5 justify-end">
-      <button type="button" onClick={() => setOpenDialogUsers(true)}>
+      <button
+        type="button"
+        onClick={() => {
+          setOpenDialogUsers(true);
+          handleResetSeleccion();
+        }}
+      >
         Agregar Usuario
       </button>
     </div>

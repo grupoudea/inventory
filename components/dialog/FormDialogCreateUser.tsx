@@ -1,21 +1,20 @@
-import React, { FormEvent, useState } from "react";
+import React, { FormEvent, useEffect, useState } from "react";
 import FormDialog from "./FormDialog";
 import { FormButtons } from "./FormButtons";
 import { toast } from "react-toastify";
 import { useInventoryContext } from "@/context/InventoryContext";
 import { Rol } from ".prisma/client";
 
-interface FormDialogCreateUserProps {
-  titleDialog: string;
-  isEdit: boolean;
-}
-
-const FormDialogCreateUser = ({ titleDialog }: FormDialogCreateUserProps) => {
+const FormDialogCreateUser = ({ userSelected }: any) => {
   const [formData, setFormData] = useState({
     correo: "",
     rol: 0,
-    nombre: "",
   });
+
+  let titleDialog = "Crear usuario";
+  if (userSelected) {
+    titleDialog = "Editar usuario";
+  }
 
   //TODO Servicio para cargar la lista de roles, ya esta de la forma Rol
   let roles: Rol[] = [
@@ -30,6 +29,27 @@ const FormDialogCreateUser = ({ titleDialog }: FormDialogCreateUserProps) => {
   ];
 
   const [rolSelected, setRolSelected] = useState(0);
+  const [disabled, setDisabled] = useState(false);
+
+  useEffect(() => {
+    if (userSelected) {
+      console.log("userSelected");
+      console.log(userSelected);
+      setRolSelected(userSelected.rol_id);
+      setFormData((prev) => ({
+        ...prev,
+        correo: userSelected.email,
+        rol: userSelected.rol_id,
+      }));
+      setDisabled(true);
+    } else {
+      setFormData((prev) => ({
+        ...prev,
+        correo: "",
+      }));
+      setDisabled(false);
+    }
+  }, [userSelected]);
 
   const { openDialogUsers, setOpenDialogUsers } = useInventoryContext();
 
@@ -39,7 +59,6 @@ const FormDialogCreateUser = ({ titleDialog }: FormDialogCreateUserProps) => {
     e.preventDefault();
     try {
       let user: any = {
-        name: formData.nombre,
         email: formData.correo,
         rol_id: rolSelected,
       };
@@ -47,6 +66,11 @@ const FormDialogCreateUser = ({ titleDialog }: FormDialogCreateUserProps) => {
       console.log("user");
       console.log(user);
       //TODO Servicio para guardar el usuario, ya esta construido de forma User
+
+      setFormData((prev) => ({
+        ...prev,
+        correo: "",
+      }));
 
       toast.success(`Usuario creado con éxito.`);
       setOpenDialogUsers(false);
@@ -76,25 +100,12 @@ const FormDialogCreateUser = ({ titleDialog }: FormDialogCreateUserProps) => {
         <form onSubmit={submitForm} className="gap-3">
           <div className="flex flex-row gap-3 mb-5">
             <div className="flex flex-col gap-3">
-              <span>Nombre</span>
-              <input
-                required
-                type="text"
-                name="nombre"
-                value={formData.nombre.toString()}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    nombre: e.target.value,
-                  }))
-                }
-                placeholder="Ingresa el correo"
-              />
               <span>Correo</span>
               <input
                 required
                 type="text"
                 name="correo"
+                disabled={disabled}
                 value={formData.correo.toString()}
                 onChange={(e) =>
                   setFormData((prev) => ({
@@ -120,7 +131,9 @@ const FormDialogCreateUser = ({ titleDialog }: FormDialogCreateUserProps) => {
             </div>
           </div>
           <FormButtons
-            closeModal={() => setOpenDialogUsers(false)}
+            closeModal={() => {
+              setOpenDialogUsers(false);
+            }}
             loading={loading}
           />
         </form>
