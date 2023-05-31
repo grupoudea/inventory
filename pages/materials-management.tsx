@@ -9,6 +9,8 @@ import {
 } from "@/context/InventoryContext";
 import Layout from "@/layouts/Layout";
 import PrivateRoute from "@/components/PrivateRoute";
+import { useQuery } from "@apollo/client";
+import { GET_MATERIALS } from "@/graphql/client/material_client";
 
 const MaterialsManagementPage = () => (
   <PrivateRoute>
@@ -44,50 +46,11 @@ const MaterialsTable = () => {
   // TODO Tambien el calculo de la cantidad disponible.
   // TODO organizar el objeto response de la forma de [datos]
 
-  let dataSource: any[] = [];
+  const { data } = useQuery<{ materials: any[] }>(GET_MATERIALS, {
+    fetchPolicy: "cache-first",
+  });
 
-  let datos = [
-    {
-      id: 1,
-      name: "material1",
-      available: 25,
-      creation_date: new Date(),
-      user_id: 1,
-    },
-    {
-      id: 2,
-      name: "material1",
-      available: 25,
-      creation_date: new Date(),
-      user_id: 1,
-    },
-    {
-      id: 3,
-      name: "material1",
-      available: 25,
-      creation_date: new Date(),
-      user_id: 1,
-    },
-    {
-      id: 4,
-      name: "material1",
-      available: 25,
-      creation_date: new Date(),
-      user_id: 1,
-    },
-    {
-      id: 5,
-      name: "material1",
-      available: 25,
-      creation_date: new Date(),
-      user_id: 1,
-    },
-  ];
-
-  dataSource = datos.map((dato) => ({
-    ...dato,
-    creation_date: dato.creation_date.toLocaleDateString(),
-  }));
+  let materials: any[] = data?.materials || [];
 
   const columns: Column[] = [];
   columns.push({ name: "id", header: "Identificador" });
@@ -97,10 +60,7 @@ const MaterialsTable = () => {
 
   return (
     <>
-      <TableMaterials
-        dataSource={dataSource}
-        columns={columns}
-      ></TableMaterials>
+      <TableMaterials dataSource={materials} columns={columns}></TableMaterials>
     </>
   );
 };

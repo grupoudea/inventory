@@ -8,7 +8,7 @@ import { useEffect, useState } from "react";
 import { Column } from "@/utils/utils";
 import TableUsers from "@/components/TableUsers";
 import { useQuery } from "@apollo/client";
-import { GET_USERS } from "@/graphql/client/user";
+import { GET_USERS } from "@/graphql/client/user_client";
 import PrivateRoute from "@/components/PrivateRoute";
 import { FormDialogCreateUser } from "@/components/dialog/FormDialogCreateUser";
 
