@@ -33,8 +33,6 @@ const movementResolvers: Resolver = {
   Mutation: {
     createMovement: async (parent, args, context) => {
       const { quantity, movement_type, material_id } = args;
-      // TODO:Consultar disponibilidad de material antes de crear el movimiento , si el movimiento
-      // tiene mas salidas que la cantidad disponible , devolver un error
       const currentMaterial = await context.db.material.findUnique({
         where: { id: material_id },
         include: {

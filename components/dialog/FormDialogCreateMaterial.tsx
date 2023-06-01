@@ -33,14 +33,13 @@ const FormDialogCreateMaterial = () => {
         available: parseInt(formData.cantidad.toString()),
       };
 
-      var materialCreated = await createMaterial({
+      await createMaterial({
         variables: {
           name: material.name,
           userId: material.user_id,
           available: material.available,
         },
       });
-      console.log(materialCreated);
 
       toast.success(`Material creado con éxito.`);
       setOpenDialogMaterials(false);
