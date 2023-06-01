@@ -22,13 +22,16 @@ const FormDialogCreateMaterial = () => {
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      if (formData.cantidad <= 0 || formData.nombre.trim().length <= 0) {
+        throw new Error(
+          "Nombre no puede ser vació / cantidad debe ser mayor que cero."
+        );
+      }
       let material: any = {
         name: formData.nombre,
         user_id: userData?.user.id,
         available: parseInt(formData.cantidad.toString()),
       };
-      console.log("material");
-      console.log(material);
 
       var materialCreated = await createMaterial({
         variables: {
