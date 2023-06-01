@@ -7,11 +7,18 @@ import { MdInput, MdOutput } from "react-icons/md";
 import { CREATE_MOVEMENT } from "@/graphql/client/movement_client";
 import { useMutation } from "@apollo/client";
 
-const FormDialogAddMovement = () => {
+const FormDialogAddMovement = ({
+  materialSelected,
+}: {
+  materialSelected: number;
+}) => {
   const [formData, setFormData] = useState({
     cantidad: 0,
     tipoMovimiento: "",
   });
+
+  console.log("materialSelected FormDialogAddMovement");
+  console.log(materialSelected);
 
   const { openDialogMovements, setOpenDialogMovements } = useInventoryContext();
 
