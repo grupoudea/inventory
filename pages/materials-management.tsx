@@ -1,7 +1,6 @@
 import React, { useEffect } from "react";
 import { Column } from "@/utils/utils";
 import { useNavigationContext } from "@/context/NavigationContext";
-import TableMaterials from "@/components/TableMaterials";
 import { FormDialogCreateMaterial } from "@/components/dialog/FormDialogCreateMaterial";
 import {
   InventoryContextProvider,
@@ -13,6 +12,7 @@ import { useQuery } from "@apollo/client";
 import { GET_MATERIALS } from "@/graphql/client/material_client";
 import Head from "next/head";
 import PrivateComponent from "@/components/PrivateComponent";
+import TableReactDataGrid from "@/components/TableReactDataGrid";
 
 const MaterialsManagementPage = () => (
   <PrivateRoute>
@@ -61,13 +61,13 @@ const MaterialsTable = () => {
 
   const columns: Column[] = [];
   columns.push({ name: "id", header: "Identificador" });
-  columns.push({ name: "creation_date", header: "Fecha del creación" });
+  columns.push({ name: "creation_date", header: "Fecha de creación" });
   columns.push({ name: "name", header: "Nombre" });
   columns.push({ name: "available", header: "Cantidad disponible" });
 
   return (
     <>
-      <TableMaterials dataSource={materials} columns={columns}></TableMaterials>
+      <TableReactDataGrid dataSource={materials} columns={columns} />
     </>
   );
 };
