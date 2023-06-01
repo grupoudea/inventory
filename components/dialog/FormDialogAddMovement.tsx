@@ -3,7 +3,10 @@ import FormDialog from "./FormDialog";
 import { toast } from "react-toastify";
 import { useInventoryContext } from "@/context/InventoryContext";
 import { MdInput, MdOutput } from "react-icons/md";
-import {CREATE_MOVEMENT, GET_MOVEMENTS} from "@/graphql/client/movement_client";
+import {
+  CREATE_MOVEMENT,
+  GET_MOVEMENTS,
+} from "@/graphql/client/movement_client";
 import { useMutation } from "@apollo/client";
 
 const FormDialogAddMovement = ({
