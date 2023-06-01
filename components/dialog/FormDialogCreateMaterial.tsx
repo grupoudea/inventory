@@ -5,10 +5,13 @@ import { toast } from "react-toastify";
 import { useInventoryContext } from "@/context/InventoryContext";
 import { CREATE_MATERIAL } from "@/graphql/client/material_client";
 import { useMutation } from "@apollo/client";
+import { useUserData } from "@/hooks/useUserData";
 
 const FormDialogCreateMaterial = () => {
+  let { userData } = useUserData();
   const [formData, setFormData] = useState({
     nombre: "",
+    cantidad: 0,
   });
 
   const { openDialogMaterials, setOpenDialogMaterials } = useInventoryContext();
@@ -21,7 +24,8 @@ const FormDialogCreateMaterial = () => {
     try {
       let material: any = {
         name: formData.nombre,
-        user_id: 4, //TODO: enviar user id logueado
+        user_id: userData?.user.id,
+        available: parseInt(formData.cantidad.toString()),
       };
       console.log("material");
       console.log(material);
@@ -30,6 +34,7 @@ const FormDialogCreateMaterial = () => {
         variables: {
           name: material.name,
           userId: material.user_id,
+          available: material.available,
         },
       });
       console.log(materialCreated);
@@ -65,6 +70,22 @@ const FormDialogCreateMaterial = () => {
                   }))
                 }
                 placeholder="Ingresa el nombre"
+              />
+            </div>
+            <div className="flex flex-col">
+              <span>Cantidad disponible</span>
+              <input
+                required
+                type="number"
+                name="cantidad"
+                value={formData.cantidad}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    cantidad: parseInt(e.target.value),
+                  }))
+                }
+                placeholder="Ingresa la cantidad"
               />
             </div>
           </div>
