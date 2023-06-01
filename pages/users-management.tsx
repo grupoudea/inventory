@@ -4,16 +4,22 @@ import {
 } from "@/context/InventoryContext";
 import Layout from "@/layouts/Layout";
 import { useNavigationContext } from "@/context/NavigationContext";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Column } from "@/utils/utils";
 import TableUsers from "@/components/TableUsers";
 import { useQuery } from "@apollo/client";
 import { GET_USERS } from "@/graphql/client/user_client";
 import PrivateRoute from "@/components/PrivateRoute";
 import { FormDialogCreateUser } from "@/components/dialog/FormDialogCreateUser";
+import Head from "next/head";
 
 const UsersManagementPage = () => (
   <PrivateRoute>
+    <Head>
+      <title>Users</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
     <Layout>
       <InventoryContextProvider>
         <UsersManagement />
