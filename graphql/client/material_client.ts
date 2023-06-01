@@ -12,8 +12,8 @@ const GET_MATERIALS = gql`
 `;
 
 const CREATE_MATERIAL = gql`
-  mutation CreateMaterial($userId: Int!, $name: String!) {
-    createMaterial(user_id: $userId, name: $name) {
+  mutation CreateMaterial($userId: Int!, $name: String!, $available: Int!) {
+    createMaterial(user_id: $userId, name: $name, available: $available) {
       name
     }
   }

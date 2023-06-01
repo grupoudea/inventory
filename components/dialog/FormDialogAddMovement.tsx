@@ -1,6 +1,5 @@
 import React, { FormEvent, useState } from "react";
 import FormDialog from "./FormDialog";
-import { FormButtons } from "./FormButtons";
 import { toast } from "react-toastify";
 import { useInventoryContext } from "@/context/InventoryContext";
 import { MdInput, MdOutput } from "react-icons/md";
@@ -17,12 +16,8 @@ const FormDialogAddMovement = ({
     tipoMovimiento: "",
   });
 
-  console.log("materialSelected FormDialogAddMovement");
-  console.log(materialSelected);
-
   const { openDialogMovements, setOpenDialogMovements } = useInventoryContext();
 
-  const loading = false; //TODO Cargar con el servicio
   const [createMovement] = useMutation(CREATE_MOVEMENT);
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
@@ -34,9 +29,7 @@ const FormDialogAddMovement = ({
         tipo_movimiento: formData.tipoMovimiento,
       };
 
-      console.log(movimiento);
-
-      var movementCreated = await createMovement({
+      await createMovement({
         variables: {
           quantity: movimiento.quantity,
           movementType: movimiento.tipo_movimiento,
@@ -44,10 +37,14 @@ const FormDialogAddMovement = ({
         },
       });
 
-      console.log(movementCreated);
-
       toast.success(`Movimiento realizado con éxito.`);
       setOpenDialogMovements(false);
+
+      setFormData((prev) => ({
+        ...prev,
+        cantidad: 0,
+        tipoMovimiento: "",
+      }));
     } catch (e: any) {
       console.error(e);
       toast.error(e.message);
@@ -83,7 +80,7 @@ const FormDialogAddMovement = ({
                 required
                 type="number"
                 name="cantidad"
-                min={0}
+                min={1}
                 step={1}
                 value={formData.cantidad.toString()}
                 onChange={(e) =>
@@ -95,18 +92,28 @@ const FormDialogAddMovement = ({
                 placeholder="0"
               />
             </div>
-            <button
-              className="w-10 h-10 rounded-full bg-green-300 text-white flex items-center justify-center hover:bg-green-500"
-              onClick={addInput}
-            >
-              <MdInput />
-            </button>
-            <button
-              className="w-10 h-10 rounded-full bg-red-300 text-white flex items-center justify-center hover:bg-red-500"
-              onClick={addOutput}
-            >
-              <MdOutput />
-            </button>
+          </div>
+          <div className="flex flex-row gap-10 justify-center">
+            <div className="flex flex-col items-center">
+              <button
+                className="w-10 h-10 rounded-full bg-green-300 text-white flex items-center justify-center hover:bg-green-500"
+                onClick={() => {
+                  addInput();
+                }}
+              >
+                <MdInput />
+              </button>
+              <label className="text-xs">Entrada</label>
+            </div>
+            <div className="flex flex-col items-center">
+              <button
+                className="w-10 h-10 rounded-full bg-red-300 text-white flex items-center justify-center hover:bg-red-500"
+                onClick={addOutput}
+              >
+                <MdOutput />
+              </button>
+              <span className="text-xs">Salida</span>
+            </div>
           </div>
           <FormButtons
             closeModal={() => setOpenDialogMovements(false)}
