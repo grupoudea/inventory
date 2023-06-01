@@ -11,9 +11,15 @@ import Layout from "@/layouts/Layout";
 import PrivateRoute from "@/components/PrivateRoute";
 import { useQuery } from "@apollo/client";
 import { GET_MATERIALS } from "@/graphql/client/material_client";
+import Head from "next/head";
 
 const MaterialsManagementPage = () => (
   <PrivateRoute>
+    <Head>
+      <title>Materials</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
     <Layout>
       <InventoryContextProvider>
         <MaterialsManagement />

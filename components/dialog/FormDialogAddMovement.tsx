@@ -29,7 +29,7 @@ const FormDialogAddMovement = ({
     e.preventDefault();
     try {
       let movimiento: any = {
-        material_id: 1, // TODO: traer material ID desde el dropdown de materiales
+        material_id: materialSelected,
         quantity: formData.cantidad,
         tipo_movimiento: formData.tipoMovimiento,
       };
