@@ -3,7 +3,10 @@ import FormDialog from "./FormDialog";
 import { FormButtons } from "./FormButtons";
 import { toast } from "react-toastify";
 import { useInventoryContext } from "@/context/InventoryContext";
-import { CREATE_MATERIAL } from "@/graphql/client/material_client";
+import {
+  CREATE_MATERIAL,
+  GET_MATERIALS,
+} from "@/graphql/client/material_client";
 import { useMutation } from "@apollo/client";
 import { useUserData } from "@/hooks/useUserData";
 
@@ -36,6 +39,7 @@ const FormDialogCreateMaterial = () => {
           userId: material.user_id,
           available: material.available,
         },
+        refetchQueries: [GET_MATERIALS],
       });
 
       toast.success(

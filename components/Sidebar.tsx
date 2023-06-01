@@ -4,6 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import styles from "@/styles/CircularImage.module.css";
 import { signOut, useSession } from "next-auth/react";
+import PrivateComponent from "@/components/PrivateComponent";
 
 const Sidebar = () => {
   const { open } = useNavigationContext();
@@ -25,9 +26,9 @@ const Sidebar = () => {
           <ul className="flex flex-col gap-3">
             <SidebarLink href="/inventory-management" title={"Inventario"} />
             <SidebarLink href="/materials-management" title={"Materiales"} />
-            {/* <PrivateRoute role={"ADMIN"}> */}
-            <SidebarLink href="/users-management" title={"Usuarios"} />
-            {/* </PrivateRoute> */}
+            <PrivateComponent role={"ADMIN"}>
+              <SidebarLink href="/users-management" title={"Usuarios"} />
+            </PrivateComponent>
           </ul>
         </nav>
         <button type="button" className="border-1" onClick={() => signOut()}>
