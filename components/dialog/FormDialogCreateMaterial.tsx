@@ -3,6 +3,8 @@ import FormDialog from "./FormDialog";
 import { FormButtons } from "./FormButtons";
 import { toast } from "react-toastify";
 import { useInventoryContext } from "@/context/InventoryContext";
+import { CREATE_MATERIAL } from "@/graphql/client/material_client";
+import { useMutation } from "@apollo/client";
 
 const FormDialogCreateMaterial = () => {
   const [formData, setFormData] = useState({
@@ -12,26 +14,31 @@ const FormDialogCreateMaterial = () => {
   const { openDialogMaterials, setOpenDialogMaterials } = useInventoryContext();
 
   const loading = false; //TODO Cargar con el servicio
+  const [createMaterial] = useMutation(CREATE_MATERIAL);
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       let material: any = {
         name: formData.nombre,
-        creation_date: new Date(),
-        user_id: 1,
+        user_id: 4, //TODO: enviar user id logueado
       };
       console.log("material");
       console.log(material);
 
-      //TODO Servicio para guardar el material, ya esta construido de forma Material
-      //TODO Falta servicio para obtener el usuario logueado
+      var materialCreated = await createMaterial({
+        variables: {
+          name: material.name,
+          userId: material.user_id,
+        },
+      });
+      console.log(materialCreated);
 
       toast.success(`Material creado con éxito.`);
       setOpenDialogMaterials(false);
-    } catch (e) {
-      console.error(e);
-      toast.error("Ocurrió un error al crear el material");
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.message);
     }
   };
 
