@@ -3,7 +3,7 @@ import FormDialog from "./FormDialog";
 import { toast } from "react-toastify";
 import { useInventoryContext } from "@/context/InventoryContext";
 import { MdInput, MdOutput } from "react-icons/md";
-import { CREATE_MOVEMENT } from "@/graphql/client/movement_client";
+import {CREATE_MOVEMENT, GET_MOVEMENTS} from "@/graphql/client/movement_client";
 import { useMutation } from "@apollo/client";
 
 const FormDialogAddMovement = ({
@@ -35,6 +35,7 @@ const FormDialogAddMovement = ({
           movementType: movimiento.tipo_movimiento,
           materialId: movimiento.material_id,
         },
+        refetchQueries: [GET_MOVEMENTS],
       });
 
       toast.success(`Movimiento realizado con éxito.`);
