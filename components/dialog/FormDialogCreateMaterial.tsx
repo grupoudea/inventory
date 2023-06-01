@@ -95,6 +95,7 @@ const FormDialogCreateMaterial = () => {
           <FormButtons
             closeModal={() => setOpenDialogMaterials(false)}
             loading={loading}
+            primaryText={"Crear"}
           />
         </form>
       </div>
