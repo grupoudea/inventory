@@ -3,7 +3,10 @@ import FormDialog from "./FormDialog";
 import { FormButtons } from "./FormButtons";
 import { toast } from "react-toastify";
 import { useInventoryContext } from "@/context/InventoryContext";
-import { Rol } from ".prisma/client";
+import { useQuery } from "@apollo/client";
+import { GET_ROLES } from "@/graphql/client/rol_client";
+import { useMutation } from "@apollo/client";
+import { CREATE_USER } from "@/graphql/client/user_client";
 
 const FormDialogCreateUser = ({ userSelected }: any) => {
   const [formData, setFormData] = useState({
@@ -16,17 +19,11 @@ const FormDialogCreateUser = ({ userSelected }: any) => {
     titleDialog = "Editar usuario";
   }
 
-  //TODO Servicio para cargar la lista de roles, ya esta de la forma Rol
-  let roles: Rol[] = [
-    {
-      id: 1,
-      name: "ADMIN",
-    },
-    {
-      id: 2,
-      name: "USER",
-    },
-  ];
+  const { data } = useQuery<{ roles: any[] }>(GET_ROLES, {
+    fetchPolicy: "cache-first",
+  });
+
+  let roles: any[] = data?.roles || [];
 
   const [rolSelected, setRolSelected] = useState(0);
   const [disabled, setDisabled] = useState(false);
@@ -54,6 +51,7 @@ const FormDialogCreateUser = ({ userSelected }: any) => {
   const { openDialogUsers, setOpenDialogUsers } = useInventoryContext();
 
   const loading = false; //TODO Cargar con el servicio
+  const [createUser] = useMutation(CREATE_USER);
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -63,16 +61,20 @@ const FormDialogCreateUser = ({ userSelected }: any) => {
         rol_id: rolSelected,
       };
 
-      console.log("user");
-      console.log(user);
+      if (user.rol_id == 0) {
+        toast.warning("Selecciona un rol");
+        return;
+      }
       //TODO Servicio para guardar el usuario, ya esta construido de forma User
+      var userCreated = await createUser({
+        variables: {
+          email: user.email,
+          rolId: user.rol_id,
+        },
+      });
+      console.log(userCreated);
 
-      setFormData((prev) => ({
-        ...prev,
-        correo: "",
-      }));
-
-      toast.success(`Usuario creado con éxito.`);
+      toast.success(`Usuario ${userCreated.data.email} creado con éxito.`);
       setOpenDialogUsers(false);
     } catch (e) {
       console.error(e);
@@ -122,6 +124,9 @@ const FormDialogCreateUser = ({ userSelected }: any) => {
                 name="rol"
                 onChange={handleRolChange}
               >
+                <option key={"default"} value={0}>
+                  {"Selecciona un rol"}
+                </option>
                 {roles?.map((rol) => (
                   <option key={`rol_${rol.id}`} value={rol.id}>
                     {rol.name}

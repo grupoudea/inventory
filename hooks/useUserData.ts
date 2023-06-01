@@ -1,5 +1,5 @@
 import { useQuery } from "@apollo/client";
-import { GET_USER } from "@/graphql/client/user";
+import { GET_USER } from "@/graphql/client/user_client";
 import { useSession } from "next-auth/react";
 import { ExtendedUser } from "@/types";
 

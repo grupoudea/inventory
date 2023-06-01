@@ -1,5 +1,5 @@
-import React, { useEffect, useState } from "react";
-import { Material } from "@prisma/client";
+import React from "react";
+import { useEffect, useState } from "react";
 import { Column } from "@/utils/utils";
 import Layout from "@/layouts/Layout";
 import { useNavigationContext } from "@/context/NavigationContext";
@@ -12,6 +12,9 @@ import Head from "next/head";
 import { FormDialogAddMovement } from "@/components/dialog/FormDialogAddMovement";
 import TableReactDataGrid from "@/components/TableReactDataGrid";
 import PrivateRoute from "@/components/PrivateRoute";
+import { useQuery } from "@apollo/client";
+import { GET_MOVEMENTS } from "@/graphql/client/movement_client";
+import { GET_MATERIALS } from "@/graphql/client/material_client";
 
 const InventoryPage: NextPage = () => (
   <PrivateRoute>
@@ -64,41 +67,33 @@ const InventoryTable = ({ materialSelected }: { materialSelected: number }) => {
   const [cantidadDisponible] = useState<number>(35);
   const [loading, setLoading] = useState(true);
 
+  const { data } = useQuery<{ movements: any[] }>(GET_MOVEMENTS, {
+    fetchPolicy: "cache-first",
+    variables: { idMaterial: materialSelected },
+  });
   useEffect(() => {
     if (materialSelected) {
-      const datos = new Promise((resolve) => {
-        setTimeout(() => {
-          const testData = Array.from({ length: 200 }, (_, index) => ({
-            id: index + 1,
-            quantity: index * 3,
-            creation_date: new Date(),
-            material_id: (index + 2) * 100,
-            movement_type: index % 2 == 0 ? "ENTRADA" : "SALIDA",
-          }));
-
-          const updatedDataSource: any = testData.map((dato) => ({
-            ...dato,
-            creation_date: dato.creation_date.toLocaleDateString(),
-          }));
-
-          updatedDataSource.forEach((dato: any) => {
-            if (dato.movement_type === "ENTRADA") {
-              dato.entradas = dato.quantity;
-            }
-            if (dato.movement_type === "SALIDA") {
-              dato.salidas = dato.quantity;
-            }
-          });
-          resolve(updatedDataSource);
-        }, 1500);
-      });
-
-      setLoading(false);
-      setDataSource(datos);
+      if (data && data.movements) {
+        let datos: any[] = [];
+        data.movements.forEach((nDato: any) => {
+          const dato = { ...nDato };
+          if (nDato.movement_type === "ENTRADA") {
+            dato.entradas = nDato.quantity;
+          }
+          if (dato.movement_type === "SALIDA") {
+            dato.salidas = nDato.quantity;
+          }
+          datos.push(dato);
+        });
+        setLoading(false);
+        setDataSource(datos);
+      } else {
+        setLoading(true);
+      }
     } else {
       setLoading(true);
     }
-  }, [materialSelected]);
+  }, [data, materialSelected]);
   if (loading) return <div>Selecciona un material</div>;
 
   const columns: Column[] = [];
@@ -145,22 +140,11 @@ const InputSearchMovement = ({
     setMaterialSelected(parseInt(event.target.value, 10));
   };
 
-  let materiales: Material[] = [
-    {
-      id: 1,
-      name: "material1",
-      available: 1,
-      creation_date: new Date(),
-      user_id: 1,
-    },
-    {
-      id: 2,
-      name: "material2",
-      available: 1,
-      creation_date: new Date(),
-      user_id: 1,
-    },
-  ];
+  const { data } = useQuery<{ materials: any[] }>(GET_MATERIALS, {
+    fetchPolicy: "cache-first",
+  });
+
+  let materiales: any[] = data?.materials || [];
 
   return (
     <div className="flex my-5">
@@ -170,6 +154,9 @@ const InputSearchMovement = ({
         name="material"
         onChange={handleMaterialChange}
       >
+        <option key={0} value={0}>
+          {"Seleccione un material"}
+        </option>
         {materiales?.map((material) => (
           <option key={`material_${material.id}`} value={material.id}>
             {material.name}

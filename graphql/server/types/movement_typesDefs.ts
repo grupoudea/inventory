@@ -7,11 +7,12 @@ const movementTypeDefs = gql`
     creation_date: String!
     movement_type: String!
     material: Material!
+    material_id: Int!
   }
 
   type Query {
     movements: [Movement!]!
-    movements(idMaterial:Int): [Movement!]!
+    movements(idMaterial: Int): [Movement!]!
     movement(id: Int!): Movement
   }
 
