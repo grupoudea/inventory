@@ -11,29 +11,26 @@ const FormDialogCreateMaterial = () => {
   let { userData } = useUserData();
   const [formData, setFormData] = useState({
     nombre: "",
-    cantidad: 0,
   });
 
   const { openDialogMaterials, setOpenDialogMaterials } = useInventoryContext();
 
-  const loading = false; //TODO Cargar con el servicio
+  const loading = false;
   const [createMaterial] = useMutation(CREATE_MATERIAL);
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      if (formData.cantidad <= 0 || formData.nombre.trim().length <= 0) {
-        throw new Error(
-          "Nombre no puede ser vació / cantidad debe ser mayor que cero."
-        );
+      if (formData.nombre.trim().length <= 0) {
+        toast.warning("Nombre no puede ser vació.");
       }
       let material: any = {
         name: formData.nombre,
         user_id: userData?.user.id,
-        available: parseInt(formData.cantidad.toString()),
+        available: 0,
       };
 
-      await createMaterial({
+      var materialCreated = await createMaterial({
         variables: {
           name: material.name,
           userId: material.user_id,
@@ -41,7 +38,9 @@ const FormDialogCreateMaterial = () => {
         },
       });
 
-      toast.success(`Material creado con éxito.`);
+      toast.success(
+        `Material ${materialCreated.data.createMaterial.name} creado con éxito.`
+      );
       setOpenDialogMaterials(false);
     } catch (error: any) {
       console.error(error);
@@ -53,7 +52,7 @@ const FormDialogCreateMaterial = () => {
     <FormDialog
       open={openDialogMaterials}
       setOpen={setOpenDialogMaterials}
-      formDialogTitle="Agregar un movimiento"
+      formDialogTitle="Agregar un material"
     >
       <div>
         <form onSubmit={submitForm} className="gap-3">
@@ -72,22 +71,6 @@ const FormDialogCreateMaterial = () => {
                   }))
                 }
                 placeholder="Ingresa el nombre"
-              />
-            </div>
-            <div className="flex flex-col">
-              <span>Cantidad disponible</span>
-              <input
-                required
-                type="number"
-                name="cantidad"
-                value={formData.cantidad}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    cantidad: parseInt(e.target.value),
-                  }))
-                }
-                placeholder="Ingresa la cantidad"
               />
             </div>
           </div>

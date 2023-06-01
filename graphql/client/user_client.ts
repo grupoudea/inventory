@@ -28,8 +28,8 @@ const GET_USER = gql`
 `;
 
 const CREATE_USER = gql`
-  mutation CreateUser($email: String!, $rolId: Int!) {
-    createUser(email: $email, rolId: $rolId, name: $name) {
+  mutation CreateUser($email: String!, $name: String!, $rolId: Int!) {
+    createUser(email: $email, name: $name, rolId: $rolId) {
       creation_date
       email
       id
