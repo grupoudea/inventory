@@ -19,7 +19,7 @@ const PrivateRoute = ({ role, children }: PrivateRouteProps) => {
   if (!session) return <UnauthorizedPage></UnauthorizedPage>;
 
   if (role && role !== userRole) {
-    console.log("rol malo");
+    console.log("Error role");
     return (
       <Layout>
         <div className="flex h-screen w-full flex-col items-center justify-center gap-4">
@@ -28,7 +28,7 @@ const PrivateRoute = ({ role, children }: PrivateRouteProps) => {
       </Layout>
     );
   }
-  console.log("llega aqui cuando estpa todo bien");
+  console.log("You can login");
 
   return <>{children}</>;
 };

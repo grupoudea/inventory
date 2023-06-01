@@ -3,35 +3,49 @@ import FormDialog from "./FormDialog";
 import { FormButtons } from "./FormButtons";
 import { toast } from "react-toastify";
 import { useInventoryContext } from "@/context/InventoryContext";
+import { CREATE_MATERIAL } from "@/graphql/client/material_client";
+import { useMutation } from "@apollo/client";
+import { useUserData } from "@/hooks/useUserData";
 
 const FormDialogCreateMaterial = () => {
+  let { userData } = useUserData();
   const [formData, setFormData] = useState({
     nombre: "",
+    cantidad: 0,
   });
 
   const { openDialogMaterials, setOpenDialogMaterials } = useInventoryContext();
 
   const loading = false; //TODO Cargar con el servicio
+  const [createMaterial] = useMutation(CREATE_MATERIAL);
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
+      if (formData.cantidad <= 0 || formData.nombre.trim().length <= 0) {
+        throw new Error(
+          "Nombre no puede ser vació / cantidad debe ser mayor que cero."
+        );
+      }
       let material: any = {
         name: formData.nombre,
-        creation_date: new Date(),
-        user_id: 1,
+        user_id: userData?.user.id,
+        available: parseInt(formData.cantidad.toString()),
       };
-      console.log("material");
-      console.log(material);
 
-      //TODO Servicio para guardar el material, ya esta construido de forma Material
-      //TODO Falta servicio para obtener el usuario logueado
+      await createMaterial({
+        variables: {
+          name: material.name,
+          userId: material.user_id,
+          available: material.available,
+        },
+      });
 
       toast.success(`Material creado con éxito.`);
       setOpenDialogMaterials(false);
-    } catch (e) {
-      console.error(e);
-      toast.error("Ocurrió un error al crear el material");
+    } catch (error: any) {
+      console.error(error);
+      toast.error(error.message);
     }
   };
 
@@ -60,10 +74,27 @@ const FormDialogCreateMaterial = () => {
                 placeholder="Ingresa el nombre"
               />
             </div>
+            <div className="flex flex-col">
+              <span>Cantidad disponible</span>
+              <input
+                required
+                type="number"
+                name="cantidad"
+                value={formData.cantidad}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    cantidad: parseInt(e.target.value),
+                  }))
+                }
+                placeholder="Ingresa la cantidad"
+              />
+            </div>
           </div>
           <FormButtons
             closeModal={() => setOpenDialogMaterials(false)}
             loading={loading}
+            primaryText={"Crear"}
           />
         </form>
       </div>

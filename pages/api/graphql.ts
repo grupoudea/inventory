@@ -11,6 +11,8 @@ import { startServerAndCreateNextHandler } from "@as-integrations/next";
 
 import { PrismaClient } from "@prisma/client";
 import { NextApiRequest, NextApiResponse } from "next";
+import { authOptions } from "./auth/[...nextauth]";
+import { getServerSession } from "next-auth";
 
 const prisma = new PrismaClient();
 
@@ -24,10 +26,23 @@ const server = new ApolloServer({
   typeDefs: [userTypesDefs, rolTypeDefs, materialTypeDefs, movementTypeDefs],
 });
 
-export default startServerAndCreateNextHandler(server, {
+const serverHandler = startServerAndCreateNextHandler(server, {
   context: async (req: NextApiRequest, res: NextApiResponse) => ({
     req,
     res,
     db: prisma,
   }),
 });
+
+const graphqlServer = async (req: NextApiRequest, res: NextApiResponse) => {
+  const session = await getServerSession(req, res, authOptions);
+
+  if (process.env.NODE_ENV === "production" && !session) {
+    res.status(401).json({ error: "Unauthorized" });
+    return;
+  }
+
+  return serverHandler(req, res);
+};
+
+export default graphqlServer;

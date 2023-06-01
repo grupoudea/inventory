@@ -9,9 +9,18 @@ import {
 } from "@/context/InventoryContext";
 import Layout from "@/layouts/Layout";
 import PrivateRoute from "@/components/PrivateRoute";
+import { useQuery } from "@apollo/client";
+import { GET_MATERIALS } from "@/graphql/client/material_client";
+import Head from "next/head";
+import PrivateComponent from "@/components/PrivateComponent";
 
 const MaterialsManagementPage = () => (
   <PrivateRoute>
+    <Head>
+      <title>Materials</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
     <Layout>
       <InventoryContextProvider>
         <MaterialsManagement />
@@ -40,54 +49,11 @@ const MaterialsManagement = () => {
 };
 
 const MaterialsTable = () => {
-  // TODO Servico para consultar los materiales.
-  // TODO Tambien el calculo de la cantidad disponible.
-  // TODO organizar el objeto response de la forma de [datos]
+  const { data } = useQuery<{ materials: any[] }>(GET_MATERIALS, {
+    fetchPolicy: "cache-first",
+  });
 
-  let dataSource: any[] = [];
-
-  let datos = [
-    {
-      id: 1,
-      name: "material1",
-      available: 25,
-      creation_date: new Date(),
-      user_id: 1,
-    },
-    {
-      id: 2,
-      name: "material1",
-      available: 25,
-      creation_date: new Date(),
-      user_id: 1,
-    },
-    {
-      id: 3,
-      name: "material1",
-      available: 25,
-      creation_date: new Date(),
-      user_id: 1,
-    },
-    {
-      id: 4,
-      name: "material1",
-      available: 25,
-      creation_date: new Date(),
-      user_id: 1,
-    },
-    {
-      id: 5,
-      name: "material1",
-      available: 25,
-      creation_date: new Date(),
-      user_id: 1,
-    },
-  ];
-
-  dataSource = datos.map((dato) => ({
-    ...dato,
-    creation_date: dato.creation_date.toLocaleDateString(),
-  }));
+  let materials: any[] = data?.materials || [];
 
   const columns: Column[] = [];
   columns.push({ name: "id", header: "Identificador" });
@@ -97,10 +63,7 @@ const MaterialsTable = () => {
 
   return (
     <>
-      <TableMaterials
-        dataSource={dataSource}
-        columns={columns}
-      ></TableMaterials>
+      <TableMaterials dataSource={materials} columns={columns}></TableMaterials>
     </>
   );
 };
@@ -109,9 +72,11 @@ const ButtonAddMaterial = () => {
   const { setOpenDialogMaterials } = useInventoryContext();
   return (
     <div className="flex my-5 justify-end">
-      <button type="button" onClick={() => setOpenDialogMaterials(true)}>
-        Agregar material
-      </button>
+      <PrivateComponent role="ADMIN">
+        <button type="button" onClick={() => setOpenDialogMaterials(true)}>
+          Agregar material
+        </button>
+      </PrivateComponent>
     </div>
   );
 };

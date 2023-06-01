@@ -13,13 +13,18 @@ const materialTypeDefs = gql`
 
   type Query {
     materials: [Material!]!
-    materials(idUser:Int): [Material!]!
+    materials(idUser: Int): [Material!]!
     material(id: Int!): Material
   }
 
   type Mutation {
-    createMaterial(name: String!, available: Int!, user_id: Int!): Material!
-    updateMaterial(id: Int!, name: String!, available: Int!, user_id: Int!): Material!
+    createMaterial(name: String!, user_id: Int!, available: Int!): Material!
+    updateMaterial(
+      id: Int!
+      name: String!
+      available: Int!
+      user_id: Int!
+    ): Material!
     deleteMaterial(id: Int!): Material
   }
 `;

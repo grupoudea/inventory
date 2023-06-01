@@ -4,16 +4,22 @@ import {
 } from "@/context/InventoryContext";
 import Layout from "@/layouts/Layout";
 import { useNavigationContext } from "@/context/NavigationContext";
-import { useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Column } from "@/utils/utils";
 import TableUsers from "@/components/TableUsers";
 import { useQuery } from "@apollo/client";
-import { GET_USERS } from "@/graphql/client/user";
+import { GET_USERS } from "@/graphql/client/user_client";
 import PrivateRoute from "@/components/PrivateRoute";
 import { FormDialogCreateUser } from "@/components/dialog/FormDialogCreateUser";
+import Head from "next/head";
 
 const UsersManagementPage = () => (
-  <PrivateRoute>
+  <PrivateRoute role="ADMIN">
+    <Head>
+      <title>Users</title>
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <link rel="icon" href="/favicon.ico" />
+    </Head>
     <Layout>
       <InventoryContextProvider>
         <UsersManagement />
@@ -39,7 +45,7 @@ const UsersManagement = () => {
   }, []);
 
   return (
-    <div className="debug-blue flex flex-col w-full h-full px-5">
+    <div className="flex flex-col w-full h-full px-5">
       <ButtonAddUser handleResetSeleccion={handleResetSeleccion} />
       <UsersTable handleUserToEditSelected={handleUserToEditSelected} />
       <FormDialogCreateUser
@@ -50,9 +56,6 @@ const UsersManagement = () => {
 };
 
 const UsersTable = ({ handleUserToEditSelected }: any) => {
-  // TODO Servico para consultar los usuarios con rol.
-  // TODO organizar el objeto response de la forma de [users]
-
   const { data } = useQuery<{ users: any[] }>(GET_USERS, {
     fetchPolicy: "cache-first",
   });

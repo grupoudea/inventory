@@ -25,7 +25,7 @@ interface NavigationContextProvider {
 
 const NavigationContextProvider = ({ children }: NavigationContextProvider) => {
   const [open, setOpen] = useState<boolean>(false);
-  const [tituloHeader, setTituloHeader] = useState<string>("Header");
+  const [tituloHeader, setTituloHeader] = useState<string>("...");
   return (
     <NavigationContext.Provider
       value={{ open, setOpen, tituloHeader, setTituloHeader }}
