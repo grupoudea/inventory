@@ -36,6 +36,7 @@ const InventoryPage: NextPage = () => (
 const InventoryManagement = () => {
   const [materialSelected, setMaterialSelected] = useState<number>(0);
   const { setTituloHeader } = useNavigationContext();
+
   useEffect(() => {
     setTituloHeader("Gestión de inventarios");
   }, []);
@@ -47,7 +48,7 @@ const InventoryManagement = () => {
           materialSelected={materialSelected}
           setMaterialSelected={setMaterialSelected}
         />
-        <ButtonAddMovement />
+        <ButtonAddMovement materialSelected={materialSelected} />
       </div>
       <InventoryTable materialSelected={materialSelected}></InventoryTable>
 
@@ -113,12 +114,29 @@ const InventoryTable = ({ materialSelected }: { materialSelected: number }) => {
   );
 };
 
-const ButtonAddMovement = () => {
+const ButtonAddMovement = ({
+  materialSelected,
+}: {
+  materialSelected: number;
+}) => {
   const { setOpenDialogMovements } = useInventoryContext();
+  const [isButtonDisabled, setIsButtonDisabled] = useState(true);
+
+  useEffect(() => {
+    if (materialSelected === 0) {
+      setIsButtonDisabled(true);
+    } else {
+      setIsButtonDisabled(false);
+    }
+  }, [materialSelected]);
 
   return (
     <div className="flex my-5 justify-end">
-      <button type="button" onClick={() => setOpenDialogMovements(true)}>
+      <button
+        type="button"
+        disabled={isButtonDisabled}
+        onClick={() => setOpenDialogMovements(true)}
+      >
         Agregar movimiento
       </button>
     </div>
