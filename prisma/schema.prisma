@@ -51,7 +51,7 @@ model User {
   emailVerified DateTime?
   image         String?
   rol           Rol?        @relation(fields: [rol_id], references: [id])
-  rol_id        Int?
+  rol_id        Int?        @default(3)
   material      Material[]
   accounts      Account[]
   sessions      Session[]
