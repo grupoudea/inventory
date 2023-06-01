@@ -2,12 +2,14 @@ import React from "react";
 import { useNavigationContext } from "@/context/NavigationContext";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import Image from "next/image";
 import styles from "@/styles/CircularImage.module.css";
-import { signOut } from "next-auth/react";
+import { signOut, useSession } from "next-auth/react";
 
 const Sidebar = () => {
   const { open } = useNavigationContext();
+  const { data: session } = useSession();
+  const userName = session?.user?.name || "Pepito Perez";
+  const userImage = session?.user?.image || "/avatar-simple.png";
 
   return (
     <aside
@@ -15,8 +17,8 @@ const Sidebar = () => {
     ${open ? "flex" : "hidden"} flex-col bg-indigo-800 md:flex gap-10`}
     >
       <div className="flex flex-col items-center justify-between gap-9">
-        <CircularImage />
-        <div>pepito perez</div>
+        <CircularImage src={userImage} />
+        <div>{userName}</div>
       </div>
       <div className="flex flex-col justify-between h-full">
         <nav>
@@ -38,12 +40,7 @@ const Sidebar = () => {
 
 const CircularImage = ({ src }: any) => (
   <div className={`bg-white ${styles.circularImage}`}>
-    <Image
-      src={src || "/avatar-simple.png"}
-      alt={"Circular"}
-      width={200}
-      height={200}
-    />
+    <img src={src} alt={"Circular"} />
   </div>
 );
 
