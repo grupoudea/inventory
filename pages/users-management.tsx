@@ -45,7 +45,7 @@ const UsersManagement = () => {
   }, []);
 
   return (
-    <div className="debug-blue flex flex-col w-full h-full px-5">
+    <div className="flex flex-col w-full h-full px-5">
       <ButtonAddUser handleResetSeleccion={handleResetSeleccion} />
       <UsersTable handleUserToEditSelected={handleUserToEditSelected} />
       <FormDialogCreateUser
@@ -56,9 +56,6 @@ const UsersManagement = () => {
 };
 
 const UsersTable = ({ handleUserToEditSelected }: any) => {
-  // TODO Servico para consultar los usuarios con rol.
-  // TODO organizar el objeto response de la forma de [users]
-
   const { data } = useQuery<{ users: any[] }>(GET_USERS, {
     fetchPolicy: "cache-first",
   });

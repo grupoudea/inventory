@@ -31,8 +31,6 @@ const FormDialogCreateUser = ({ userSelected }: any) => {
 
   useEffect(() => {
     if (userSelected) {
-      console.log("userSelected");
-      console.log(userSelected);
       setRolSelected(userSelected.rol_id);
       setFormData((prev) => ({
         ...prev,

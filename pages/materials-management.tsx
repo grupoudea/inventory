@@ -49,10 +49,6 @@ const MaterialsManagement = () => {
 };
 
 const MaterialsTable = () => {
-  // TODO Servico para consultar los materiales.
-  // TODO Tambien el calculo de la cantidad disponible.
-  // TODO organizar el objeto response de la forma de [datos]
-
   const { data } = useQuery<{ materials: any[] }>(GET_MATERIALS, {
     fetchPolicy: "cache-first",
   });
