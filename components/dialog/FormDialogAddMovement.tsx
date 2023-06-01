@@ -115,11 +115,6 @@ const FormDialogAddMovement = ({
               <span className="text-xs">Salida</span>
             </div>
           </div>
-          <FormButtons
-            closeModal={() => setOpenDialogMovements(false)}
-            loading={loading}
-            primaryText={"Crear"}
-          />
         </form>
       </div>
     </FormDialog>
