@@ -3,15 +3,20 @@ import ReactLoading from "react-loading";
 interface FormButtonsProps {
   loading: boolean;
   closeModal: () => void;
+  primaryText: String;
 }
 
-const FormButtons = ({ loading, closeModal }: FormButtonsProps) => (
+const FormButtons = ({
+  loading,
+  closeModal,
+  primaryText,
+}: FormButtonsProps) => (
   <div className="flex w-full justify-center gap-4">
     <button type="submit" disabled={loading}>
       {loading ? (
         <ReactLoading type="spin" height={30} width={30} color="blue" />
       ) : (
-        "Crear"
+        primaryText
       )}
     </button>
     <button

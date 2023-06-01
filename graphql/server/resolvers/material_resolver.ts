@@ -31,7 +31,7 @@ const materialResolvers: Resolver = {
           rol: true,
         },
       });
-      if (currentUser?.rol?.name != "Admin") {
+      if (currentUser?.rol?.name != "ADMIN") {
         throw new Error("Solamente el rol 'Admin' puede crear materiales.");
       }
       const newMaterial = await context.db.material.create({

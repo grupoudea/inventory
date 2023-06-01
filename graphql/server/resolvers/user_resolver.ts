@@ -28,9 +28,10 @@ const userResolvers: Resolver = {
   },
   Mutation: {
     createUser: async (parent, args, context) => {
-      const { email, rolId } = args;
+      const { email, rolId, name } = args;
       const newUser = await context.db.user.create({
         data: {
+          name,
           email,
           rol: {
             connect: { id: rolId },
