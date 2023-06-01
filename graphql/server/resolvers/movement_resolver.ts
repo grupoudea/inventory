@@ -32,12 +32,13 @@ const movementResolvers: Resolver = {
   },
   Mutation: {
     createMovement: async (parent, args, context) => {
-      const { quantity, creation_date, movement_type, material_id } = args;
+      const { quantity, movement_type, material_id } = args;
+      // TODO:Consultar disponibilidad de material antes de crear el movimiento , si el movimiento
+      // tiene mas salidas que la cantidad disponible , devolver un error
       let factor = 1;
       const newMovement = await context.db.movement.create({
         data: {
           quantity,
-          creation_date,
           movement_type,
           material: {
             connect: { id: material_id },

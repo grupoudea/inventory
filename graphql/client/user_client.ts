@@ -25,4 +25,15 @@ const GET_USER = gql`
   }
 `;
 
-export { GET_USERS, GET_USER };
+const CREATE_USER = gql`
+  mutation CreateUser($email: String!, $rolId: Int!) {
+    createUser(email: $email, rolId: $rolId) {
+      creation_date
+      email
+      id
+      rol_id
+    }
+  }
+`;
+
+export { GET_USERS, GET_USER, CREATE_USER };

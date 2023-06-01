@@ -23,6 +23,17 @@ const materialResolvers: Resolver = {
   Mutation: {
     createMaterial: async (parent, args, context) => {
       const { name, available, user_id } = args;
+      const currentUser = await context.db.user.findUnique({
+        where: {
+          id: user_id,
+        },
+        include: {
+          rol: true,
+        },
+      });
+      if (currentUser?.rol?.name != "Admin") {
+        throw new Error("Solamente el rol 'Admin' puede crear materiales.");
+      }
       const newMaterial = await context.db.material.create({
         data: {
           name,

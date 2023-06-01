@@ -4,6 +4,8 @@ import { FormButtons } from "./FormButtons";
 import { toast } from "react-toastify";
 import { useInventoryContext } from "@/context/InventoryContext";
 import { MdInput, MdOutput } from "react-icons/md";
+import { CREATE_MOVEMENT } from "@/graphql/client/movement_client";
+import { useMutation } from "@apollo/client";
 
 const FormDialogAddMovement = () => {
   const [formData, setFormData] = useState({
@@ -14,27 +16,34 @@ const FormDialogAddMovement = () => {
   const { openDialogMovements, setOpenDialogMovements } = useInventoryContext();
 
   const loading = false; //TODO Cargar con el servicio
+  const [createMovement] = useMutation(CREATE_MOVEMENT);
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
       let movimiento: any = {
-        material_id: 1,
+        material_id: 1, // TODO: traer material ID desde el dropdown de materiales
         quantity: formData.cantidad,
-        creation_date: new Date(),
         tipo_movimiento: formData.tipoMovimiento,
       };
 
       console.log(movimiento);
 
-      //TODO Servicio para guardar el movimiento, ya esta construido de forma Movement
-      //TODO falta agregar el tipo movimiento, la entity no tiene el campo
+      var movementCreated = await createMovement({
+        variables: {
+          quantity: movimiento.quantity,
+          movementType: movimiento.tipo_movimiento,
+          materialId: movimiento.material_id,
+        },
+      });
+
+      console.log(movementCreated);
 
       toast.success(`Movimiento realizado con éxito.`);
       setOpenDialogMovements(false);
-    } catch (e) {
+    } catch (e: any) {
       console.error(e);
-      toast.error("Ocurrió un error al agregar el movimiento");
+      toast.error(e.message);
     }
   };
 

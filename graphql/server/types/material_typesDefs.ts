@@ -18,7 +18,7 @@ const materialTypeDefs = gql`
   }
 
   type Mutation {
-    createMaterial(name: String!, available: Int!, user_id: Int!): Material!
+    createMaterial(name: String!, user_id: Int!): Material!
     updateMaterial(
       id: Int!
       name: String!
