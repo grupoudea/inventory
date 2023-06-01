@@ -52,19 +52,14 @@ const InventoryManagement = () => {
       </div>
       <InventoryTable materialSelected={materialSelected}></InventoryTable>
 
-      <FormDialogAddMovement />
+      <FormDialogAddMovement materialSelected={materialSelected} />
     </div>
   );
 };
 
 const InventoryTable = ({ materialSelected }: { materialSelected: number }) => {
-  // TODO Servico para consultar los movimientos, el servicio debe retornar la lista de movimientos con filtro.
-  // TODO usar [materialSelected] para el filtro
-  // TODO Tambien el calculo de la cantidad disponible.
-  // TODO organizar el objeto response de la forma de [datos]
-
   const [dataSource, setDataSource] = useState<any>([]);
-  const [cantidadDisponible] = useState<number>(35);
+  const [cantidadDisponible, setCantidaddisponible] = useState<number>(0);
   const [loading, setLoading] = useState(true);
 
   const { data } = useQuery<{ movements: any[] }>(GET_MOVEMENTS, {
@@ -75,18 +70,24 @@ const InventoryTable = ({ materialSelected }: { materialSelected: number }) => {
     if (materialSelected) {
       if (data && data.movements) {
         let datos: any[] = [];
+
+        let cantidad = 0;
         data.movements.forEach((nDato: any) => {
           const dato = { ...nDato };
           if (nDato.movement_type === "ENTRADA") {
             dato.entradas = nDato.quantity;
+            cantidad += nDato.quantity;
           }
           if (dato.movement_type === "SALIDA") {
             dato.salidas = nDato.quantity;
+            cantidad -= nDato.quantity;
           }
           datos.push(dato);
         });
+
         setLoading(false);
         setDataSource(datos);
+        setCantidaddisponible(cantidad);
       } else {
         setLoading(true);
       }
@@ -94,6 +95,7 @@ const InventoryTable = ({ materialSelected }: { materialSelected: number }) => {
       setLoading(true);
     }
   }, [data, materialSelected]);
+
   if (loading) return <div>Selecciona un material</div>;
 
   const columns: Column[] = [];
@@ -131,9 +133,6 @@ const InputSearchMovement = ({
   materialSelected: number;
   setMaterialSelected: React.Dispatch<React.SetStateAction<number>>;
 }) => {
-  // TODO Servico para consultar los materiales
-  // TODO organizar el objeto response de la forma de [materiales]
-
   const handleMaterialChange = (
     event: React.ChangeEvent<HTMLSelectElement>
   ) => {
