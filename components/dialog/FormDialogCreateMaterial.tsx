@@ -23,7 +23,7 @@ const FormDialogCreateMaterial = () => {
     e.preventDefault();
     try {
       if (formData.cantidad <= 0 || formData.nombre.trim().length <= 0) {
-        throw new Error(
+        toast.warning(
           "Nombre no puede ser vació / cantidad debe ser mayor que cero."
         );
       }
