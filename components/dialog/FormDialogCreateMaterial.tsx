@@ -15,7 +15,7 @@ const FormDialogCreateMaterial = () => {
 
   const { openDialogMaterials, setOpenDialogMaterials } = useInventoryContext();
 
-  const loading = false; //TODO Cargar con el servicio
+  const loading = false;
   const [createMaterial] = useMutation(CREATE_MATERIAL);
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
@@ -30,7 +30,7 @@ const FormDialogCreateMaterial = () => {
         available: 0,
       };
 
-      await createMaterial({
+      var materialCreated = await createMaterial({
         variables: {
           name: material.name,
           userId: material.user_id,
@@ -52,7 +52,7 @@ const FormDialogCreateMaterial = () => {
     <FormDialog
       open={openDialogMaterials}
       setOpen={setOpenDialogMaterials}
-      formDialogTitle="Agregar un movimiento"
+      formDialogTitle="Agregar un material"
     >
       <div>
         <form onSubmit={submitForm} className="gap-3">
