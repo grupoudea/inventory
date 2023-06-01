@@ -7,11 +7,17 @@ const userResolvers: Resolver = {
   },
   Query: {
     users: async (parent, args, context) => {
+      const { userId } = args;
       const users = await context.db.user.findMany({
         include: {
           rol: true,
         },
       });
+
+      let currentUser = users.find((x) => x.id == userId);
+      if (currentUser && currentUser?.rol?.name == "USER") {
+        return null;
+      }
       return users;
     },
     user: async (parent, args, context) => {
@@ -29,6 +35,14 @@ const userResolvers: Resolver = {
   Mutation: {
     createUser: async (parent, args, context) => {
       const { email, rolId, name } = args;
+      const rolUser = await context.db.rol.findUnique({
+        where: {
+          id: rolId,
+        },
+      });
+      if (rolUser?.name == "USER") {
+        throw new Error("Rol user no puede crear usuarios");
+      }
       const newUser = await context.db.user.create({
         data: {
           name,
@@ -42,6 +56,14 @@ const userResolvers: Resolver = {
     },
     updateUser: async (parent, args, context) => {
       const { id, email, rolId } = args;
+      const rolUser = await context.db.rol.findUnique({
+        where: {
+          id: rolId,
+        },
+      });
+      if (rolUser?.name == "USER") {
+        throw new Error("Rol user no puede editar usuarios");
+      }
       const updatedUser = await context.db.user.update({
         where: { id },
         data: {

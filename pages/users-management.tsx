@@ -14,7 +14,7 @@ import { FormDialogCreateUser } from "@/components/dialog/FormDialogCreateUser";
 import Head from "next/head";
 
 const UsersManagementPage = () => (
-  <PrivateRoute>
+  <PrivateRoute role="ADMIN">
     <Head>
       <title>Users</title>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
@@ -45,7 +45,7 @@ const UsersManagement = () => {
   }, []);
 
   return (
-    <div className="debug-blue flex flex-col w-full h-full px-5">
+    <div className="flex flex-col w-full h-full px-5">
       <ButtonAddUser handleResetSeleccion={handleResetSeleccion} />
       <UsersTable handleUserToEditSelected={handleUserToEditSelected} />
       <FormDialogCreateUser

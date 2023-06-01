@@ -42,6 +42,35 @@ const movementResolvers: Resolver = {
         },
       });
 
+      //validacion cantidad disponible
+      if (currentMaterial == null) {
+        throw new Error("No se encontro el material");
+      }
+      const entradas = currentMaterial.movement.filter(
+        (movement) => movement.movement_type === "ENTRADA"
+      );
+      const salidas = currentMaterial.movement.filter(
+        (movement) => movement.movement_type === "SALIDA"
+      );
+      const totalEntrada = entradas.reduce(
+        (sum, movement) => sum + movement.quantity,
+        0
+      );
+      const totalSalida = salidas.reduce(
+        (sum, movement) => sum + movement.quantity,
+        0
+      );
+
+      let total = totalEntrada - totalSalida;
+
+      if (movement_type == "SALIDA") {
+        if (total < quantity) {
+          throw new Error(
+            "No se puede generar una salida , cantidad disponible insuficiente."
+          );
+        }
+      }
+
       let factor = 1;
       const newMovement = await context.db.movement.create({
         data: {
@@ -56,10 +85,11 @@ const movementResolvers: Resolver = {
       if (movement_type == "SALIDA") {
         factor = -1;
       }
-      context.db.material.update({
+      const availableqt = currentMaterial?.available + quantity * factor;
+      await context.db.material.update({
         where: { id: material_id },
         data: {
-          available: currentMaterial?.available! + quantity * factor,
+          available: availableqt,
         },
       });
       return newMovement;
