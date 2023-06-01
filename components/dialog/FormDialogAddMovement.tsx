@@ -111,6 +111,7 @@ const FormDialogAddMovement = ({
           <FormButtons
             closeModal={() => setOpenDialogMovements(false)}
             loading={loading}
+            primaryText={"Crear"}
           />
         </form>
       </div>
