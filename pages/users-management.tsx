@@ -14,7 +14,7 @@ import { FormDialogCreateUser } from "@/components/dialog/FormDialogCreateUser";
 import Head from "next/head";
 
 const UsersManagementPage = () => (
-  <PrivateRoute>
+  <PrivateRoute role="ADMIN">
     <Head>
       <title>Users</title>
       <meta name="viewport" content="width=device-width, initial-scale=1" />
