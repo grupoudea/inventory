@@ -6,7 +6,8 @@ import { useInventoryContext } from "@/context/InventoryContext";
 import { useQuery } from "@apollo/client";
 import { GET_ROLES } from "@/graphql/client/rol_client";
 import { useMutation } from "@apollo/client";
-import { CREATE_USER } from "@/graphql/client/user_client";
+import { CREATE_USER, GET_USERS } from "@/graphql/client/user_client";
+import { UPDATE_USER } from "@/graphql/client/user_client";
 
 const FormDialogCreateUser = ({ userSelected }: any) => {
   const [formData, setFormData] = useState({
@@ -52,6 +53,7 @@ const FormDialogCreateUser = ({ userSelected }: any) => {
 
   const loading = false; //TODO Cargar con el servicio
   const [createUser] = useMutation(CREATE_USER);
+  const [updateUser] = useMutation(UPDATE_USER);
 
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -65,16 +67,30 @@ const FormDialogCreateUser = ({ userSelected }: any) => {
         toast.warning("Selecciona un rol");
         return;
       }
-      //TODO Servicio para guardar el usuario, ya esta construido de forma User
-      var userCreated = await createUser({
-        variables: {
-          email: user.email,
-          rolId: user.rol_id,
-        },
-      });
-      console.log(userCreated);
 
-      toast.success(`Usuario ${userCreated.data.email} creado con éxito.`);
+      let message: String;
+
+      if (userSelected) {
+        var userUpdated = await updateUser({
+          variables: {
+            updateUserId: userSelected.id,
+            rolId: user.rol_id,
+          },
+          refetchQueries: [GET_USERS],
+        });
+        message = `Usuario ${userUpdated.data.updateUser.email} actualizado con éxito.`;
+      } else {
+        var userCreated = await createUser({
+          variables: {
+            email: user.email,
+            rolId: user.rol_id,
+          },
+          refetchQueries: [GET_USERS],
+        });
+        message = `Usuario ${userCreated.data.createUser.email} creado con éxito.`;
+      }
+
+      toast.success(message);
       setOpenDialogUsers(false);
     } catch (e) {
       console.error(e);
@@ -140,6 +156,7 @@ const FormDialogCreateUser = ({ userSelected }: any) => {
               setOpenDialogUsers(false);
             }}
             loading={loading}
+            primaryText={userSelected ? "Editar" : "Crear"}
           />
         </form>
       </div>
