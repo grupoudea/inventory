@@ -12,6 +12,7 @@ import PrivateRoute from "@/components/PrivateRoute";
 import { useQuery } from "@apollo/client";
 import { GET_MATERIALS } from "@/graphql/client/material_client";
 import Head from "next/head";
+import PrivateComponent from "@/components/PrivateComponent";
 
 const MaterialsManagementPage = () => (
   <PrivateRoute>
@@ -75,9 +76,11 @@ const ButtonAddMaterial = () => {
   const { setOpenDialogMaterials } = useInventoryContext();
   return (
     <div className="flex my-5 justify-end">
-      <button type="button" onClick={() => setOpenDialogMaterials(true)}>
-        Agregar material
-      </button>
+      <PrivateComponent role="ADMIN">
+        <button type="button" onClick={() => setOpenDialogMaterials(true)}>
+          Agregar material
+        </button>
+      </PrivateComponent>
     </div>
   );
 };
