@@ -11,7 +11,6 @@ const FormDialogCreateMaterial = () => {
   let { userData } = useUserData();
   const [formData, setFormData] = useState({
     nombre: "",
-    cantidad: 0,
   });
 
   const { openDialogMaterials, setOpenDialogMaterials } = useInventoryContext();
@@ -22,15 +21,13 @@ const FormDialogCreateMaterial = () => {
   const submitForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     try {
-      if (formData.cantidad <= 0 || formData.nombre.trim().length <= 0) {
-        throw new Error(
-          "Nombre no puede ser vació / cantidad debe ser mayor que cero."
-        );
+      if (formData.nombre.trim().length <= 0) {
+        toast.warning("Nombre no puede ser vació.");
       }
       let material: any = {
         name: formData.nombre,
         user_id: userData?.user.id,
-        available: parseInt(formData.cantidad.toString()),
+        available: 0,
       };
 
       await createMaterial({
@@ -41,7 +38,9 @@ const FormDialogCreateMaterial = () => {
         },
       });
 
-      toast.success(`Material creado con éxito.`);
+      toast.success(
+        `Material ${materialCreated.data.createMaterial.name} creado con éxito.`
+      );
       setOpenDialogMaterials(false);
     } catch (error: any) {
       console.error(error);
@@ -72,22 +71,6 @@ const FormDialogCreateMaterial = () => {
                   }))
                 }
                 placeholder="Ingresa el nombre"
-              />
-            </div>
-            <div className="flex flex-col">
-              <span>Cantidad disponible</span>
-              <input
-                required
-                type="number"
-                name="cantidad"
-                value={formData.cantidad}
-                onChange={(e) =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    cantidad: parseInt(e.target.value),
-                  }))
-                }
-                placeholder="Ingresa la cantidad"
               />
             </div>
           </div>

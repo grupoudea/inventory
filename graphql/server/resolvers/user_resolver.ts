@@ -34,7 +34,7 @@ const userResolvers: Resolver = {
   },
   Mutation: {
     createUser: async (parent, args, context) => {
-      const { email, rolId } = args;
+      const { email, rolId, name } = args;
       const rolUser = await context.db.rol.findUnique({
         where: {
           id: rolId,
@@ -45,6 +45,7 @@ const userResolvers: Resolver = {
       }
       const newUser = await context.db.user.create({
         data: {
+          name,
           email,
           rol: {
             connect: { id: rolId },

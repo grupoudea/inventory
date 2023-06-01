@@ -12,6 +12,7 @@ import { UPDATE_USER } from "@/graphql/client/user_client";
 const FormDialogCreateUser = ({ userSelected }: any) => {
   const [formData, setFormData] = useState({
     correo: "",
+    nombre: "",
     rol: 0,
   });
 
@@ -58,6 +59,7 @@ const FormDialogCreateUser = ({ userSelected }: any) => {
     try {
       let user: any = {
         email: formData.correo,
+        name: formData.nombre,
         rol_id: rolSelected,
       };
 
@@ -80,6 +82,7 @@ const FormDialogCreateUser = ({ userSelected }: any) => {
       } else {
         var userCreated = await createUser({
           variables: {
+            name: user.name,
             email: user.email,
             rolId: user.rol_id,
           },
@@ -130,6 +133,20 @@ const FormDialogCreateUser = ({ userSelected }: any) => {
                   }))
                 }
                 placeholder="Ingresa el correo"
+              />
+              <input
+                required
+                type="text"
+                name="nombre"
+                disabled={disabled}
+                value={formData.nombre.toString()}
+                onChange={(e) =>
+                  setFormData((prev) => ({
+                    ...prev,
+                    nombre: e.target.value,
+                  }))
+                }
+                placeholder="Ingresa el nombre de usuario"
               />
               <span>Rol</span>
               <select
